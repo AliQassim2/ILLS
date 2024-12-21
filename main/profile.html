@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- icon -->
+    <link rel="icon" href="imges/Vector.png"type="image/x-icon" />
+    <!-- itim font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Itim&family=Karla:ital,wght@0,200..800;1,200..800&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Karla:ital,wght@0,200..800;1,200..800&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!-- bootstrab -->
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <!-- main -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/profile.css">
+    <link rel="stylesheet" href="styles/track.css">
+</head>
+<body>
+    <img src="imges/shapes-background.png" alt="" class="bg">
+    <!--start logo -->
+    <header class="d-flex justify-content-center ">
+        <img src="imges/logo.png" alt="logo">
+    </header>
+    <!--end logo -->
+    <!-- start nav -->
+    <nav class="d-flex justify-content-center">
+        <ul class="nav rounded-pill justify-content-center shadow">
+            <li class="nav-item">
+            <a class="nav-link text-black" href="main.html">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-black" href="Track.html">Track</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link text-black" href="test.html">Test</a>
+            </li>
+            <li class="nav-item ">
+            <a class="nav-link text-black" href="Aboutus.html">About us</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active " href="profile.html">Profile</a>
+            </li>
+        </ul>
+    </nav>
+    <!-- end nav -->
+    <!-- start form -->
+    <form action="" class="d-flex justify-content-center align-items-center flex-column flex-lg-row my-5 mx-0 mx-lg-5">
+        <div class="edit-info p5 mx-5">
+            <img src="imges/354637.png" alt="user logo" class="logo-img ">
+            <input type="file">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Name</label>
+                <input class="form-control" type="text" >
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input type="email" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input class="form-control" type="text" >
+              </div>
+        </div>
+        <div class="status mt-4 mt-lg-0">
+            <h1>status</h1>
+            <div>
+                <h3 class="mb-4">Track level : 1</h3>
+                <h3>Day streak  : 1</h3>
+            </div>
+            <button type="submit" class="fs-4 mt-4">Save</button>
+        </div>
+    </form>
+    <!-- end form -->
+    <script src="js/bootstrap.js"></script>
+</body>
+</html>
