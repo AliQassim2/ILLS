@@ -1,10 +1,11 @@
 To start your project, you need to install Laravel. If you haven't downloaded it yet, run the following commands in your terminal:
 <br>
+<b>
 composer require laravel/breeze --dev <br>
 php artisan breeze:install <br>
 php artisan migrate<br>
 npm install && npm run dev # (For frontend assets)<br>
-
+</b>
 Then, run the following commands to start the server:
 <br>
 php artisan migrate<br>
