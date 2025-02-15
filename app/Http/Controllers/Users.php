@@ -47,6 +47,7 @@ class Users extends Controller
             'password' => ['required']
         ]);
         if (Auth::attempt(['email' => $attributes['email'], 'password' => $attributes['password']])) {
+
             return redirect('/profile');
         }
 

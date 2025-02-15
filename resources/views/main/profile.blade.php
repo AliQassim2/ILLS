@@ -1,17 +1,17 @@
 <x-layout>
-    <!-- end nav -->
-    <!-- start form -->
+
+
     <form action="" class="d-flex justify-content-center align-items-center flex-column flex-lg-row my-5 mx-0 mx-lg-5">
         <div class="edit-info p5 mx-5">
             <img src="imges/354637.png" alt="user logo" class="logo-img ">
             <input type="file">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Name</label>
-                <input class="form-control" type="text">
+                <input class="form-control" type="text" value="{{ Auth::user()->name }}">
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="email" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+                <input type="email" value="{{ Auth::user()->email }}" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
