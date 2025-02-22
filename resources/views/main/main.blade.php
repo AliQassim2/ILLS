@@ -1,6 +1,4 @@
 <x-layout>
-    <!-- end nav -->
-    <!-- start section -->
     <section class="d-flex justify-content-center">
         <div class="section d-flex justify-content-around ">
             <img class="img-fluid girl " src="imges/smiling-student-girl-holds-pencil-books-while-looking-notebook-education-concept_136403-15523-removebg-preview 1.png" alt="smiling girl">

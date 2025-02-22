@@ -25,9 +25,7 @@
     <div class=" vh-100 d-flex align-items-center justify-content-center">
         <div class="login">
             <h3>sign in</h3>
-            @props(['email'])
             @error('email')
-
             <p>worng email or password</p>
             @enderror
             <form action="login" method="post">

@@ -5,6 +5,7 @@ use App\Http\Controllers\Users;
 use Illuminate\Support\Facades\Auth;
 
 Route::view('/', 'main.main');
+Route::view('/t', 'welcome');
 Route::view('/about', 'main.Aboutus');
 Route::view('/login', 'main.login');
 Route::view('/profile', 'main.profile', ['user' => Auth::user()]);

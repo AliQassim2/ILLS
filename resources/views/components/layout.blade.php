@@ -28,23 +28,14 @@
     </header>
     <nav class="d-flex justify-content-center">
         <ul class="nav rounded-pill justify-content-center shadow">
-            <li class="nav-item">
-                <a class="nav-link text-black" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-black" href="track">Track</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-black" href="test">Test</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link active" href="about">About us</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-black" href="profile">Profile</a>
-            </li>
+            <x-list classes="text-black" url="/">Home</x-nav>
+                <x-list classes="text-black" url="/track">Track</x-nav>
+                    <x-list classes="text-black" url="/test">Test</x-nav>
+                        <x-list classes="active" url="/about">About us</x-nav>
+                            <x-list classes="text-black" url="/profile">Profile</x-nav>
         </ul>
     </nav>
+
     <main>
         {{ $slot }}
     </main>
