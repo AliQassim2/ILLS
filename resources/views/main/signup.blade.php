@@ -33,8 +33,12 @@
                     <input type="text" class="shadow form-control" id="exampleInputEmail1" name="name" required>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
+                    <label for="exampleInputEmail12" class="form-label">Email address</label>
+                    <input type="email" class="shadow form-control" id="exampleInputEmail12" aria-describedby="emailHelp" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail13" class="form-label">Phone number</label>
+                    <input type="text" class="shadow form-control" id="exampleInputEmail13" aria-describedby="emailHelp" name="phone" required>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
