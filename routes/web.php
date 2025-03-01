@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\StoriesController;
+use App\Http\Controllers\StoryCommentController;
 use Illuminate\Support\Facades\Auth;
 //Home
 Route::view('/', 'main.main');
@@ -21,6 +22,12 @@ Route::controller(StoriesController::class)->group(function () {
     Route::get('/stories/{stories}/edit', 'edit')->middleware('auth');
     Route::patch('/stories/{stories}', 'update')->middleware('auth');
     Route::delete('/stories/{stories}', 'destroy')->middleware('auth');
+});
+//StoryComment
+Route::controller(StoryCommentController::class)->group(function () {
+    Route::get('/story/{id}', 'index');
+    Route::post('/story', 'store')->middleware('auth');
+    Route::delete('/story', 'destroy')->middleware('auth');
 });
 
 

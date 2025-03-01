@@ -39,7 +39,7 @@
                     </p>
 
                     <!-- Comments Button -->
-                    <a href="/story/{{ $story->id }}#comments" class="btn btn-outline-primary">
+                    <a href="/story/{{ $story->id }}" class="btn btn-outline-primary">
                         <i class="bi bi-chat-dots-fill"></i> {{ $story->story_Comment->count() }} Comments
                     </a>
                 </div>
