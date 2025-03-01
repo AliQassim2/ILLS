@@ -20,7 +20,6 @@ return new class extends Migration
             $table->tinyInteger('type')->default(1);
             $table->boolean('is_active')->default(true);
             $table->bigInteger('views')->default(0);
-            $table->bigInteger('likes')->default(0);
             $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });

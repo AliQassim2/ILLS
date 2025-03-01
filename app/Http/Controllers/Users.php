@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 
+
 use function Laravel\Prompts\error;
 
 class Users extends Controller
@@ -17,57 +18,70 @@ class Users extends Controller
      */
     public function index()
     {
-        //
+        if (request()->sort == 'stories') {
+            $users = User::withCount(['result as stories_count' => function ($query) {
+                $query->select(DB::raw('count(stories_id)'));
+            }])->orderBy('stories_count', 'DESC')->get();
+        } else {
+            $users = User::withsum('result as score', 'score')->orderBy('score', 'DESC')->get();
+        }
+        return view('main.rank', ['users' => $users]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        return view('main.signup');
+    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        User::create([
-            'name' => request('name'),
-            'email' => request('email'),
-            'phone_number' => request('phone'),
-            'password' => request('pass'),
-            'roll' => '1'
+        $validation = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone_number' => ['nullable', 'digits:11'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        $user = User::create($validation);
+        Auth::login($user);
         return redirect('/');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show() {}
+
+    public function display_login()
+    {
+        return view('main.login');
+    }
+    public function login()
     {
         $attributes = request()->validate([
             'email' => ['required', 'email'],
-            'password' => ['required']
+            'password' => ['required'],
         ]);
-        if (Auth::attempt(['email' => $attributes['email'], 'password' => $attributes['password']])) {
+        if (!Auth::attempt($attributes))
+            throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
 
-            return redirect('/profile');
-        }
-
-        throw ValidationException::withMessages([
-            'email' => 'Sorry, those credentials do not match.'
-        ]);
+        request()->session()->regenerate();
+        return redirect('/profile');
     }
-    public function update($id)
+    public function update(User $user)
     {
-        // dd(request()->all());
-        $user = User::findOrFail($id);
-        $user->update([
-            'name' => request('name'),
-            'email' => request('email'),
-            'phone_number' => request('phone'),
-            'password' => request('pass'),
+        $validation = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone_number' => ['required', 'numeric', 'min:11'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
+        $user->update($validation);
         return redirect('/');
     }
     public function reault($id)
@@ -77,5 +91,16 @@ class Users extends Controller
     public function sum($id)
     {
         return DB::table('results')->where('user_id', $id)->sum('score');
+    }
+    public function edit(User $user)
+    {
+        $totle_score = $this->sum($user->id);
+        $stories = $this->reault($user->id);
+        return view('main.profile', ['user' => Auth::user(), 'totle_score' => $totle_score, 'stories' => $stories]);
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

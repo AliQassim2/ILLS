@@ -17,7 +17,7 @@ class story_likeFactory extends Factory
     public function definition(): array
     {
         return [
-            'like' => $this->faker->boolean,
+            'like' => $this->faker->numberBetween(-1, 1),
             'stories_id' => \App\Models\stories::factory(),
             'user_id' => \App\Models\User::factory(),
         ];

@@ -28,27 +28,69 @@
             <h3>sign up</h3>
             <form method="POST" action="">
                 @csrf
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Name</label>
-                    <input type="text" class="shadow form-control" id="exampleInputEmail1" name="name" required>
+                <!-- Display general errors -->
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+                @endif
+
+                <!-- Name Field -->
                 <div class="mb-3">
-                    <label for="exampleInputEmail12" class="form-label">Email address</label>
-                    <input type="email" class="shadow form-control" id="exampleInputEmail12" aria-describedby="emailHelp" name="email" required>
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control shadow @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name') }}" required>
+                    @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
+
+                <!-- Email Field -->
                 <div class="mb-3">
-                    <label for="exampleInputEmail13" class="form-label">Phone number</label>
-                    <input type="text" class="shadow form-control" id="exampleInputEmail13" aria-describedby="emailHelp" name="phone" required>
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control shadow @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}" required>
+                    @error('email')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
+
+                <!-- Phone Number Field -->
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="shadow form-control" id="exampleInputPassword1" name="pass" required>
+                    <label for="phone_number" class="form-label">Phone number</label>
+                    <input type="text" class="form-control shadow @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
+                    @error('phone_number')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control shadow @error('password') is-invalid @enderror" id="password" name="password" required>
+                    @error('password')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+
+                <!-- Confirm Password Field -->
                 <div class="mb-5">
-                    <label for="exampleInputPassword1" class="form-label">Repeat Password</label>
-                    <input type="password" class="shadow form-control" id="exampleInputPassword1" name="Cpass" required>
+                    <label for="password_confirmation" class="form-label">Repeat Password</label>
+                    <input type="password" class="form-control shadow" id="password_confirmation" name="password_confirmation" required>
                 </div>
-                <button type="submit">Submit</button>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

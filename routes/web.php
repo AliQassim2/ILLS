@@ -2,26 +2,45 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users;
+use App\Http\Controllers\StoriesController;
 use Illuminate\Support\Facades\Auth;
-//Views
+//Home
 Route::view('/', 'main.main');
-Route::view('/t', 'welcome');
 Route::view('/about', 'main.Aboutus');
-Route::view('/login', 'main.login');
 Route::view('/quize', 'main.quizA');
-Route::view('/signup', 'main.signup');
 Route::view('/test', 'main.test');
 Route::view('/track', 'main.Track');
-//GET
-Route::get('/profile', function () {
-    $usersController = new Users();
-    return view('main.profile', ['user' => Auth::user(), 're' => $usersController->reault(Auth::user()->id), 'sum' => $usersController->sum(Auth::user()->id)]);
+
+
+//Stories
+Route::controller(StoriesController::class)->group(function () {
+    Route::get('/stories', 'index');
+    Route::get('/stories/{stories}', 'show');
+    Route::get('/stories/create', 'create')->middleware('auth');
+    Route::post('/stories', 'store')->middleware('auth');
+    Route::get('/stories/{stories}/edit', 'edit')->middleware('auth');
+    Route::patch('/stories/{stories}', 'update')->middleware('auth');
+    Route::delete('/stories/{stories}', 'destroy')->middleware('auth');
 });
 
 
-//POST
-Route::post('/signup', [Users::class, 'store']);
-Route::post('/login', [Users::class, 'show']);
-//PATCH
-Route::patch('/profile/{id}', [Users::class, 'update']);
-//DELETE
+
+
+//Users
+Route::controller(Users::class)->group(function () {
+    Route::get('/rank', 'index');
+    Route::get('/login', 'display_login')->middleware('guest');
+    Route::post('/login',  'login')->name('login')->middleware('guest');
+    Route::post('/logout',  'logout')->middleware('auth');
+    Route::get('/signup', 'create');
+    Route::post('/signup', 'store');
+    Route::get('/profile', 'edit')->middleware('auth');
+    Route::patch('/profile/{user}',  'update')->middleware('auth');
+});
+
+
+
+
+
+
+//

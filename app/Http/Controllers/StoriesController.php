@@ -13,8 +13,23 @@ class StoriesController extends Controller
      */
     public function index()
     {
-        //
+        $stories = stories::with('user')
+            ->withSum('story_like as like_count', 'like')
+            ->orderBy('like_count', 'DESC') // Order by most likes
+            ->simplePaginate(6);
+        return view('main.stories', compact('stories'));
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(stories $stories)
+    {
+        $story = $stories->with('user')->findOrFail($stories->id);
+        $story->increment('views');
+        return view('main.story', compact('story'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,13 +47,6 @@ class StoriesController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(stories $stories)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.

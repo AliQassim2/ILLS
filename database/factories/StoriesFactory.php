@@ -23,7 +23,6 @@ class StoriesFactory extends Factory
             'type' => $this->faker->numberBetween(1, 3),
             'is_active' => $this->faker->boolean(),
             'views' => $this->faker->numberBetween(0, 1000),
-            'likes' => $this->faker->numberBetween(0, 1000),
             'user_id' => \App\Models\User::factory(),
         ];
     }

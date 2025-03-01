@@ -25,7 +25,7 @@
     <div class=" vh-100 d-flex align-items-center justify-content-center">
         <div class="login">
             <h3>sign in</h3>
-            @error('email')
+            @error('unAuth')
             <p>worng email or password</p>
             @enderror
             <form action="login" method="post">
@@ -33,10 +33,16 @@
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
+                    @error('email')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-5">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="shadow form-control" id="exampleInputPassword1" name="password" required>
+                    @error('password')
+                    <p class="text-danger">{{ $message }}</p>
+                    @enderror
                 </div>
                 <button type="submit">Submit</button>
             </form>
