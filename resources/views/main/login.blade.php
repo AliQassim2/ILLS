@@ -28,8 +28,10 @@
             @error('unAuth')
             <p>worng email or password</p>
             @enderror
-            <form action="login" method="post">
+            <form action="{{ route('login') }}" method="post">
                 @csrf
+                <input type="hidden" name="redirect" value="{{ request('redirect', url()->previous()) }}">
+
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>

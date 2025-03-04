@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
     <!-- main -->
     <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>
@@ -29,7 +31,7 @@
     <nav class="d-flex justify-content-center">
         <ul class="nav rounded-pill justify-content-center shadow">
             <x-list classes="text-black" url="/">Home</x-nav>
-                <x-list classes="text-black" url="/rank">Rank</x-nav>
+                <x-list classes="text-black" url="/rank?sort=score&page=1">Rank</x-nav>
                     <x-list classes="text-black" url="/stories">stories</x-nav>
                         <x-list classes="active" url="/about">About us</x-nav>
                             @auth

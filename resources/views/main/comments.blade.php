@@ -4,9 +4,12 @@
 
         <!-- Add Comment Form -->
         @auth
+        @foreach ($errors->all() as $error)
+        <div>{{$error}}</div>
+        @endforeach
         <div class="card shadow-sm p-4 mb-4 rounded-4">
             <h5 class="fw-semibold">Leave a Comment</h5>
-            <form action="" method="POST">
+            <form action="{{ url('story/' . request()->route('id')) }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <textarea name="comment" class="form-control" rows="3" placeholder="Write your comment..." required></textarea>
@@ -15,7 +18,9 @@
             </form>
         </div>
         @else
-        <p class="text-center text-muted">You must <a href="{{ route('login') }}">log in</a> to post a comment.</p>
+        <p class="text-center text-muted">
+            You must <a href="{{ route('login', ['redirect' => request()->fullUrl()]) }}">log in</a> to post a comment.
+        </p>
         @endauth
 
         <!-- Comments Section -->
