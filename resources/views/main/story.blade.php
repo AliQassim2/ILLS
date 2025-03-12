@@ -32,7 +32,7 @@
                     <!-- Likes -->
                     <p class="mb-0 text-secondary">
                         <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
-                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span> Likes
+                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span> 
 
                         <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>
                         <span class="fw-bold">{{ $story->story_like->where('like', '-1')->count() }}</span> Dislikes

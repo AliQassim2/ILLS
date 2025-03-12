@@ -28,16 +28,15 @@
     </header>
     <nav class="d-flex justify-content-center">
         <ul class="nav rounded-pill justify-content-center shadow">
-            <x-list classes="text-black" url="/">Home</x-nav>
-                <x-list classes="text-black" url="/rank">Rank</x-nav>
-                    <x-list classes="text-black" url="/stories">stories</x-nav>
-                        <x-list classes="active" url="/about">About us</x-nav>
+        @guest
+            <x-list classes="text-black home" url="/">Home</x-nav>
+            @endguest
+                <x-list classes="text-black rank" url="/rank">Rank</x-nav>
+                    <x-list classes="text-black stories" url="/stories">Stories</x-nav>
+                        <x-list classes="text-black about us" url="/about">About us</x-nav>
                             @auth
-                            <x-list classes="text-black" url="/profile">Profile</x-nav>
-                                <form action="/logout" method="post">
-                                    @csrf
-                                    <button class="text-black" type="submit">Logout</button>
-                                </form>
+                            <x-list classes="text-black profile" url="/profile">Profile</x-nav>
+
                                 @endauth
                                 @guest
                                 <x-list classes="text-black" url="/login">login</x-nav>
