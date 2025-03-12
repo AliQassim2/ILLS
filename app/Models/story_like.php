@@ -9,4 +9,5 @@ class story_like extends Model
 {
     /** @use HasFactory<\Database\Factories\StoryLikeFactory> */
     use HasFactory;
+    protected $guarded = [];
 }

@@ -18,8 +18,10 @@ class ResultFactory extends Factory
     {
         return [
             'score' => $this->faker->numberBetween(0, 100),
-            'stories_id' => \App\Models\stories::factory(),
-            'user_id' => \App\Models\User::factory(),
+            // 'stories_id' => \App\Models\stories::factory(),
+            // 'user_id' => \App\Models\User::factory(),
+            'stories_id' => $this->faker->numberBetween(1, 100),
+            'user_id' => $this->faker->numberBetween(1, 100),
         ];
     }
 }

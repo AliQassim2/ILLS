@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="{{ asset('styles/bootstrap.min.css') }}">
     <!-- main -->
     <link rel="stylesheet" href="{{ asset('styles/main.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body>

@@ -21,9 +21,9 @@ class Users extends Controller
         if (request()->sort == 'stories') {
             $users = User::withCount(['result as stories_count' => function ($query) {
                 $query->select(DB::raw('count(stories_id)'));
-            }])->orderBy('stories_count', 'DESC')->get();
+            }])->orderBy('stories_count', 'DESC')->simplePaginate(20);
         } else {
-            $users = User::withsum('result as score', 'score')->orderBy('score', 'DESC')->get();
+            $users = User::withsum('result as score', 'score')->orderBy('score', 'DESC')->simplePaginate(20);
         }
         return view('main.rank', ['users' => $users]);
     }
@@ -59,26 +59,34 @@ class Users extends Controller
 
     public function display_login()
     {
-        return view('main.login');
+        return view('main.login', ['redirect' => request('redirect')]);
     }
-    public function login()
+
+    public function login(Request $request)
     {
-        $attributes = request()->validate([
+        $attributes = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
-        if (!Auth::attempt($attributes))
-            throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
 
-        request()->session()->regenerate();
-        return redirect('/profile');
+        if (!Auth::attempt($attributes)) {
+            throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
+        }
+
+        $request->session()->regenerate();
+        // dd($request->input('redirect'), url()->previous());
+
+        // Redirect to the intended page or fallback to the previous URL
+        return redirect($request->input('redirect', url('/')));
     }
+
+
     public function update(User $user)
     {
         $validation = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'phone_number' => ['required', 'numeric', 'min:11'],
+            'phone_number' => ['nullable', 'numeric', 'min:11'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         $user->update($validation);

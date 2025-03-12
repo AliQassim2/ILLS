@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\StoryCommentController;
+use App\Http\Controllers\StoryLikeController;
 use Illuminate\Support\Facades\Auth;
 //Home
 Route::view('/', 'main.main');
@@ -26,10 +27,13 @@ Route::controller(StoriesController::class)->group(function () {
 //StoryComment
 Route::controller(StoryCommentController::class)->group(function () {
     Route::get('/story/{id}', 'index');
-    Route::post('/story', 'store')->middleware('auth');
+    Route::post('/story/{id}', 'store')->middleware('auth');
     Route::delete('/story', 'destroy')->middleware('auth');
 });
-
+//StoryLike
+Route::controller(StoryLikeController::class)->group(function () {
+    Route::post('/like/{id}', 'toggleLike')->middleware('auth');
+});
 
 
 

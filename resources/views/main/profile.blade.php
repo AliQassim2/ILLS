@@ -4,6 +4,15 @@
     <form action="profile/{{$user->id}}" method="post" class="d-flex justify-content-center align-items-center flex-column flex-lg-row my-5 mx-0 mx-lg-5">
         @csrf
         @method('PATCH')
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="edit-info p5 mx-5">
             <h1>Edit info</h1>
             <div class="mb-3">

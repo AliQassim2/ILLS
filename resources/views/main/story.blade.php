@@ -31,12 +31,22 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <!-- Likes -->
                     <p class="mb-0 text-secondary">
+                        @auth
+                        <button class="like-btn " data-liked="1">
+                            👍 <span class="likes-count">{{ $story->story_like->where('like', 1)->count() }}</span>
+                        </button>
+                        <button class="dislike-btn" data-liked="0">
+                            👎 <span class="dislikes-count">{{ $story->story_like->where('like', -1)->count() }}</span>
+                        </button>
+                        @else
                         <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
-                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span> 
+                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
 
                         <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>
                         <span class="fw-bold">{{ $story->story_like->where('like', '-1')->count() }}</span> Dislikes
+                        @endauth
                     </p>
+
 
                     <!-- Comments Button -->
                     <a href="/story/{{ $story->id }}" class="btn btn-outline-primary">

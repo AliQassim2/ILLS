@@ -9,6 +9,7 @@ class story_comment extends Model
 {
     /** @use HasFactory<\Database\Factories\StoryCommentFactory> */
     use HasFactory;
+    protected $guarded = [];
     public function stories()
     {
         return $this->belongsTo(stories::class);
