@@ -85,6 +85,5 @@
     </style>
     <script>
         document.title = "Stories";
-        document.querySelector(".stories").classList.add="active"
     </script>
 </x-layout>
