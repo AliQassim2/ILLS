@@ -21,7 +21,7 @@
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email</label>
-                <input type="email" value="{{ $user->email }}" class="shadow form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
+                <input type="email" value="{{ $user->email }}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
             </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">phone number</label>
@@ -46,4 +46,7 @@
             </form>
         </div>
     </form>
+    <script>
+        document.title = "Profile";
+    </script>
 </x-layout>

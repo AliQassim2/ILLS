@@ -1,5 +1,5 @@
 <x-layout>
-    <div class="container mt-4">
+    <div class="container d-flex h mt-4">
         <div class="d-flex justify-content-center">
             <div class="card shadow-sm p-4 rounded-4 border-0 bg-light" style="max-width: 600px;">
                 <!-- Story Title -->
@@ -56,4 +56,7 @@
             </div>
         </div>
     </div>
+    <script>
+        document.title = "Story";
+    </script>
 </x-layout>

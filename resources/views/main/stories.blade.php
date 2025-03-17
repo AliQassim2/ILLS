@@ -2,13 +2,13 @@
 <x-layout>
     <div class="container mt-5">
         <div class="filter d-flex justify-content-between align-items-center mb-5 ">
-            <select class="form-select w-25" aria-label="Default select example">
+            <select class=" f form-select w-25" aria-label="Default select example">
                     <option selected>Sort by</option>
                     <option value="1">Difficulty</option>
                     <option value="2">Rating</option>
                     <option value="3">Most Viewed</option>
             </select>
-            <div class="search d-flex w-75 justify-content-end">
+            <div class="s search d-flex  justify-content-end">
                 <div class="form-outline" data-mdb-input-init>
                     <input type="search" id="form1" class="form-control" />
 

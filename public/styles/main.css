@@ -106,9 +106,40 @@ section a {
     z-index: -1;
 }
 /* end section */
+/* start footer */
 footer{
     background-color: #c1bbb1;
 }
 footer a{
     color: white;
 }
+/* end footer */
+/* start stories */
+.s{
+    width: 50% ;
+}
+.f{
+    width: 40%;
+}
+.btn{
+    background-color: var(--green);
+    color: white;
+    border: none;
+}
+.btn:hover{
+    background-color: #dcf0ea;
+    color: black;
+}
+.text-primary{
+    color: black !important;
+}
+.h{
+    min-height: 80vh;
+    justify-content: center;
+    align-items: center;
+}
+.like-btn,.dislike-btn{
+    background: none;
+    border: none;
+}
+/* end stories */
