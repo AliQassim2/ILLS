@@ -25,9 +25,9 @@
 
 <body>
     <!--start logo -->
-    <header class="d-flex justify-content-around align-items-center ">
+    <header class="d-flex justify-content-around align-items-center  ">
         <img src="{{ asset('imges/logo.png') }}" alt="Logo">
-        <nav class="nav-phone  d-lg-none">
+        <nav class="nav-phone   d-lg-none">
             <button onclick="list()"><i class="fa-solid fa-bars" ></i></button>
             <div class="conten position-absolute">
 
