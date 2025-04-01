@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
         // \App\Models\stories::factory(3)->create();
         // \App\Models\story_comment::factory(5)->create();
         // \App\Models\story_like::factory(5)->create();
-        // \App\Models\questions::factory(5)->create();
+        \App\Models\questions::factory(50)->create([
+            'stories_id' => 10
+
+        ]);
         // \App\Models\question_comment::factory(5)->create();
         // \App\Models\question_like::factory(5)->create();
         // \App\Models\result::factory(5)->create();

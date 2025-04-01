@@ -10,10 +10,9 @@ class StoryLikeController extends Controller
 {
     public function toggleLike($stories)
     {
-        // dd($stories);
+        //return response()->json(['like' => request()->like], 401);
         // Validate incoming request
         request()->validate([
-            'stories_id' => 'required|exists:stories,id',
             'like' => 'required|integer|in:-1,0,1',
         ]);
 

@@ -5,7 +5,7 @@ use App\Http\Controllers\Users;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\StoryCommentController;
 use App\Http\Controllers\StoryLikeController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\QuestionsController;
 //Home
 Route::view('/', 'main.main');
 Route::view('/about', 'main.Aboutus');
@@ -23,6 +23,7 @@ Route::controller(StoriesController::class)->group(function () {
     Route::get('/stories/{stories}/edit', 'edit')->middleware('auth');
     Route::patch('/stories/{stories}', 'update')->middleware('auth');
     Route::delete('/stories/{stories}', 'destroy')->middleware('auth');
+    Route::get('/quiz/{id}', 'quiz')->middleware('auth');
 });
 //StoryComment
 Route::controller(StoryCommentController::class)->group(function () {
@@ -30,9 +31,23 @@ Route::controller(StoryCommentController::class)->group(function () {
     Route::post('/story/{id}', 'store')->middleware('auth');
     Route::delete('/story', 'destroy')->middleware('auth');
 });
+
+
 //StoryLike
 Route::controller(StoryLikeController::class)->group(function () {
     Route::post('/like/{id}', 'toggleLike')->middleware('auth');
+});
+
+
+//Questions
+Route::controller(QuestionsController::class)->group(function () {
+    Route::get('/questions', 'index');
+    Route::get('/questions/{questions}', 'show');
+    Route::get('/questions/create', 'create')->middleware('auth');
+    Route::post('/questions', 'store')->middleware('auth');
+    Route::get('/questions/{questions}/edit', 'edit')->middleware('auth');
+    Route::patch('/questions/{questions}', 'update')->middleware('auth');
+    Route::delete('/questions/{questions}', 'destroy')->middleware('auth');
 });
 
 

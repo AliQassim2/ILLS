@@ -27,4 +27,8 @@ class stories extends Model
     {
         return $this->hasMany(result::class);
     }
+    public function questions()
+    {
+        return $this->hasMany(questions::class);
+    }
 }

@@ -71,4 +71,10 @@ class StoriesController extends Controller
     {
         //
     }
+
+    public function quiz($id)
+    {
+        $story = stories::with('questions')->findOrFail($id);
+        return view('main.quiz', compact('story'));
+    }
 }
