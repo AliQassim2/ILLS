@@ -41,6 +41,7 @@
                         </button>
                         @else
                         <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
+                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
                         <span class="fw-bold">{{ $story->story_like->where('like', 1)->count() }}</span> Likes
 
                         <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>

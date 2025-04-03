@@ -1,6 +1,23 @@
+
 <x-layout>
     <div class="container mt-5">
-        <h1 class="text-center fw-bold text-primary mb-4">Stories</h1>
+        <div class="filter d-flex justify-content-between align-items-center mb-5 ">
+            <select class="form-select w-25" aria-label="Default select example">
+                    <option selected>Sort by</option>
+                    <option value="1">Difficulty</option>
+                    <option value="2">Rating</option>
+                    <option value="3">Most Viewed</option>
+            </select>
+            <div class="search d-flex w-75 justify-content-end">
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="form1" class="form-control" />
+
+                </div>
+                <button type="button" class="btn btn-primary" data-mdb-ripple-init>
+                    Search
+                </button>
+            </div>
+        </div>
 
         <div class="row">
             @foreach ($stories as $story)
@@ -39,7 +56,7 @@
                         </div>
 
                         <!-- Read More Button -->
-                        <a href="/stories/{{ $story->id }}" class="btn btn-primary mt-3 w-100">Read More</a>
+                        <a href="/stories/{{ $story->id }}" class="btn btn-primary  mt-3 w-100">Read More</a>
                     </div>
                 </div>
             </div>
@@ -54,6 +71,10 @@
 
     <!-- CSS for Hover Effect -->
     <style>
+        .btn-primary{
+            background-color: #B6D2C1;
+            border:none;
+        }
         .transition-hover {
             transition: transform 0.3s ease-in-out;
         }
@@ -62,4 +83,7 @@
             transform: scale(1.05);
         }
     </style>
+    <script>
+        document.title = "Stories";
+    </script>
 </x-layout>

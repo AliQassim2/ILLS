@@ -39,6 +39,11 @@
                 <h3>reading Story: {{ $stories }}</h3>
             </div>
             <button type="submit" class="fs-4 mt-4">Save</button>
+
+            <form action="/logout" method="post">
+            @csrf
+                <button class="text-black" type="submit">Logout</button>
+            </form>
         </div>
     </form>
 </x-layout>
