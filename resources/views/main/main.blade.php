@@ -10,5 +10,7 @@
             </div>
         </div>
     </section>
-
+    <script>
+        document.title = "Home";
+    </script>
 </x-layout>

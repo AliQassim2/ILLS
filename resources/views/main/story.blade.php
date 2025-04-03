@@ -1,5 +1,9 @@
 <x-layout>
-    <div class="container mt-4">
+
+    <head>
+        <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
+    </head>
+    <div class="container d-flex h mt-4">
         <div class="d-flex justify-content-center">
             <div class="card shadow-sm p-4 rounded-4 border-0 bg-light" style="max-width: 600px;">
                 <!-- Story Title -->
@@ -21,8 +25,21 @@
                 <hr class="my-3">
 
                 <!-- Quiz Button -->
-                <div class="text-center mb-3">
-                    <a href="/quiz/{{$story->id}}" class="btn btn-primary px-4">Go to Quiz</a>
+                <div class="text-center ont-weight-bold mb-3">
+                    <button class="start-btn btn">Start Quiz</button>
+                </div>
+
+                <div class="arremn">
+                    <div class="question-container hide" class="hide">
+                        <div class="question fs-2 ">Question</div>
+                        <div class="answer-btns">
+                        </div>
+                    </div>
+                    <div class="controls d-flex justify-content-center align-items-center">
+
+                        <button class="next-btn btn hide">Next</button>
+                        <h1 class="score"></h1>
+                    </div>
                 </div>
 
                 <hr class="my-3">
@@ -57,35 +74,163 @@
             </div>
         </div>
     </div>
-
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
-        $(document).ready(function() {
-            var storyId = $("#story_id").val(); // Get story ID once
+        document.title = "Story";
 
-            $(".like-btn, .dislike-btn").click(function() {
-                var likeValue = $(this).data("liked"); // Corrected attribute name
+        const text = document.querySelector('.story-content')
+        const start_btn = document.querySelector('.start-btn')
+        const controls = document.querySelector('.controls')
+        const next_btn = document.querySelector('.next-btn')
+        const questions = document.querySelector('.question-container')
+        const questions_title = document.querySelector('.question')
+        const answers = document.querySelector('.answer-btns')
+        let shows = document.createElement("button")
+        let scoreheader = document.querySelector('.score')
 
-                $.ajax({
-                    url: "/like/" + storyId, // Use story ID correctly
-                    type: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-                    },
-                    data: {
-                        like: likeValue
-                    },
-                    success: function(response) {
-                        $(".likes-count").text(response.likes);
-                        $(".dislikes-count").text(response.dislikes);
-                    },
-                    error: function(xhr) {
-                        console.log("Error:", xhr.responseJSON);
-                    }
-                });
+        let shufle, curent, score
+
+
+        start_btn.addEventListener('click', startQuiz)
+        next_btn.addEventListener('click', () => {
+            curent++
+            nextQuestion()
+        })
+
+        function startQuiz() {
+            text.style.filter = "blur(4px)"
+            start_btn.classList.add('hide')
+            questions.classList.remove('hide')
+            shufle = questions_lists.sort(() => Math.random() - .5)
+            curent = 0
+            score = 0
+            nextQuestion()
+        }
+
+
+        function nextQuestion() {
+            reset()
+            show(shufle[curent])
+        }
+
+        function reset() {
+            next_btn.classList.add('hide')
+            while (answers.firstChild) {
+                answers.removeChild(answers.firstChild)
+            }
+        }
+
+        function show(q) {
+            questions_title.innerHTML = q.question
+            q.answers.sort(() => Math.random() - .5).forEach(answer => {
+                const btn = document.createElement('button')
+                btn.innerHTML = answer.text
+                btn.classList.add('btn')
+                if (answer.correct) {
+                    btn.dataset.correct = answer.correct
+                }
+                btn.addEventListener('click', selectAnswer)
+                answers.appendChild(btn)
             });
-        });
+
+        }
+
+        function selectAnswer(e) {
+            const selected = e.target
+            const correct = selected.dataset.correct
+            if (correct) {
+                score++
+            }
+            Array.from(answers.children).forEach((btn) => {
+                setStatusClass(btn, btn.dataset.correct)
+            })
+            if (shufle.length > curent + 1) {
+                next_btn.classList.remove('hide')
+            } else {
+
+                shows.innerHTML = "Show Score"
+                controls.appendChild(shows)
+                shows.classList.add('show')
+                shows.addEventListener('click', showScore)
+            }
+
+        }
+
+        function setStatusClass(element, correct) {
+            clearStatusClass(element)
+
+            if (correct) {
+                element.classList.add('correct')
+            } else {
+                element.classList.add('wrong')
+            }
+            element.disabled = true
+        }
+
+        function clearStatusClass(element) {
+            element.classList.remove('correct')
+            element.classList.remove('wrong')
+        }
+
+        function showScore() {
+            text.style.filter = "blur(0)"
+            shows.classList.add('hide')
+            questions.classList.add('hide')
+            if (score >= questions_lists.length / 2) {
+                scoreheader.innerHTML = `PASS , your score is ${score}`
+            } else {
+                scoreheader.innerHTML = `FAILED , your score is ${score}`
+            }
+        }
+
+
+        const questions_lists = [{
+                question: 'what is the best language',
+                answers: [{
+                        text: "CSS",
+                        correct: false
+                    },
+                    {
+                        text: "HTML",
+                        correct: true
+                    },
+                    {
+                        text: "JS",
+                        correct: false
+                    },
+                    {
+                        text: "PHP",
+                        correct: false
+                    },
+                ],
+            },
+            {
+                question: 'do you like apples',
+                answers: [{
+                        text: "no",
+                        correct: false
+                    },
+                    {
+                        text: "yes",
+                        correct: true
+                    },
+                ],
+            },
+            {
+                question: '2+2 = ?',
+                answers: [{
+                        text: "3",
+                        correct: false
+                    },
+                    {
+                        text: "20",
+                        correct: false
+                    },
+                    {
+                        text: "4",
+                        correct: true
+                    },
+                ],
+            }
+        ]
     </script>
 </x-layout>

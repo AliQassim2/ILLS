@@ -14,7 +14,7 @@
         <div class="d-flex  justify-content-between align-items-center">
             <h1 class="fs-3" style="text-align: left; margin: 40px 0px;">
             <p class="fw-bold mb-5">🔥 How It Works</p>
-            <p class="fs-4 shadow-sm p-2 rounded" style="font-family:Inter;">
+            <p class="fs-5 shadow-sm p-2 rounded" style="font-family:Inter;">
             1️⃣ Read Stories – Explore a variety of stories tailored to different difficulty levels.<br><br>
             2️⃣ Take Quizzes – After reading, test your understanding with interactive quizzes.<br><br>
             3️⃣ Earn Scores – Gain points 🎯 for completing stories and answering quiz questions correctly ✅.<br><br>
@@ -24,7 +24,7 @@
 
             <p class="fw-bold my-5">💡 Why This Helps Your Language Learning</p>
 
-            <p class="fs-4 shadow-sm p-2 rounded" style="font-family:Inter;">
+            <p class="fs-5 shadow-sm p-2 rounded" style="font-family:Inter;">
             ✅ Context-Based Learning – Words & phrases make more sense when learned in real contexts.<br><br>
             ✅ Comprehension Boost – Quizzes reinforce your learning, making information stick better.<br><br>
             ✅ Grammar & Reading Improvement – Sharpen your grammar, sentence structure, and comprehension.<br><br>

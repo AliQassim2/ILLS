@@ -26,6 +26,7 @@ header img {
     header{
         background-color: #c1bbb1;
         padding: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     }
     header img {
         width: 200px;
@@ -106,9 +107,77 @@ section a {
     z-index: -1;
 }
 /* end section */
+/* start footer */
 footer{
     background-color: #c1bbb1;
 }
 footer a{
     color: white;
 }
+/* end footer */
+/* start stories */
+.s{
+    width: 50% ;
+}
+.f{
+    width: 40%;
+}
+.btn{
+    background-color: var(--green);
+    color: white;
+    border: none;
+}
+.btn:hover{
+    background-color: #dcf0ea;
+    color: black;
+}
+.text-primary{
+    color: black !important;
+}
+.h{
+    min-height: 80vh;
+    justify-content: center;
+    align-items: center;
+}
+.like-btn,.dislike-btn{
+    background: none;
+    border: none;
+}
+/* end stories */
+/* profile start */
+.info div,.stats{
+    width: 30rem;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: ease-in 0.2s;
+}
+
+.info div:hover,.stats:hover{
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+}
+
+.edit-info{
+    display: none;
+    top: 50%;
+    animation: fade 0.4s;
+    z-index: 1;
+}
+@keyframes fade {
+    0% {opacity: 0;}
+    1000% {opacity: 1;}
+}
+/* profile end */
+/* status start*/
+.num{
+    background-color: var(--green);
+    border-radius: 40%;
+    padding: 10px 20px;
+}
+/* status end*/
+/* story start */
+.arremn{
+
+}
+/* story end */

@@ -6,9 +6,9 @@
         <div class="text-center mb-4">
             @if (request('sort')== 'stories')
             <a href="?sort=score&page=1 " class="btn btn-outline-primary">Rank by Score</a>
-            <a href="?sort=stories&page=1" class="btn btn-primary me-2">Rank by Stories Read</a>
+            <a href="?sort=stories&page=1" class="btn btn-primary ">Rank by Stories Read</a>
             @else
-            <a href="?sort=score&page=1" class="btn btn-primary me-2">Rank by Score</a>
+            <a href="?sort=score&page=1" class="btn btn-primary ">Rank by Score</a>
             <a href="?sort=stories&page=1" class="btn btn-outline-primary">Rank by Stories Read</a>
 
             @endif
@@ -41,4 +41,7 @@
     <div class="d-flex justify-content-center mt-4">
         {{ $users->appends(['sort' => request()->sort])->links() }}
     </div>
+    <script>
+        document.title = "Rank";
+    </script>
 </x-layout>
