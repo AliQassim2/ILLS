@@ -35,7 +35,8 @@
                             <button class="start-btn btn">Start Quiz</button>
                         @endif
                     @else
-                        <button class="start-btn btn">Start Quiz</button>
+                        <h3 class="text-danger">Please log in to take the quiz.</h3>
+                        <button class="start-btn btn" disabled>Start Quiz</button>
                     @endauth
                 </div>
 

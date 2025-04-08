@@ -19,11 +19,11 @@ class Users extends Controller
     public function index()
     {
         if (request()->sort == 'stories') {
-            $users = User::withCount(['result as stories_count' => function ($query) {
+            $users = User::where('roll', '!=', '0')->withCount(['result as stories_count' => function ($query) {
                 $query->select(DB::raw('count(stories_id)'));
             }])->orderBy('stories_count', 'DESC')->simplePaginate(20);
         } else {
-            $users = User::withsum('result as score', 'score')->orderBy('score', 'DESC')->simplePaginate(20);
+            $users = User::where('roll', '!=', '0')->withsum('result as score', 'score')->orderBy('score', 'DESC')->simplePaginate(20);
         }
         return view('main.rank', ['users' => $users]);
     }

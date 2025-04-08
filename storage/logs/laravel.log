@@ -4159,3 +4159,64 @@
 #56 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('C:\\\\Users\\\\Ali\\\\De...')
 #57 {main}
 "} 
+[2025-04-08 03:19:01] local.ERROR: There are no commands defined in the "migrate:" namespace.
+
+Did you mean this?
+    migrate {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"migrate:\" namespace.
+
+Did you mean this?
+    migrate at C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php:636)
+[stacktrace]
+#0 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(685): Symfony\\Component\\Console\\Application->findNamespace('migrate:')
+#1 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(258): Symfony\\Component\\Console\\Application->find('migrate::fresh')
+#2 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#6 {main}
+"} 
+[2025-04-08 03:19:24] local.ERROR: No arguments expected for "migrate" command, got "fresh". {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): No arguments expected for \"migrate\" command, got \"fresh\". at C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Input\\ArgvInput.php:193)
+[stacktrace]
+#0 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Input\\ArgvInput.php(86): Symfony\\Component\\Console\\Input\\ArgvInput->parseArgument('fresh')
+#1 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Input\\ArgvInput.php(71): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('fresh', true)
+#2 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Input\\Input.php(53): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#3 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Command\\Command.php(238): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#4 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(182): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#5 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(1047): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#6 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\MigrateCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#11 {main}
+"} 
+[2025-04-08 03:19:53] local.ERROR: Command "migrate:freash" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"migrate:freash\" is not defined.
+
+Did you mean one of these?
+    migrate
+    migrate:fresh
+    migrate:install
+    migrate:refresh
+    migrate:reset
+    migrate:rollback
+    migrate:status at C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php:702)
+[stacktrace]
+#0 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Command\\HelpCommand.php(64): Symfony\\Component\\Console\\Application->find('migrate:freash')
+#1 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Command\\Command.php(279): Symfony\\Component\\Console\\Command\\HelpCommand->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(1047): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(316): Symfony\\Component\\Console\\Application->doRunCommand(Object(Symfony\\Component\\Console\\Command\\HelpCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\symfony\\console\\Application.php(167): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(197): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#6 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1203): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 C:\\Users\\Ali\\Desktop\\programming\\Laravel\\ILLS\\artisan(13): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
+#8 {main}
+"} 
