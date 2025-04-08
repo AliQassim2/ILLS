@@ -9,4 +9,5 @@ class result extends Model
 {
     /** @use HasFactory<\Database\Factories\ResultFactory> */
     use HasFactory;
+    protected $guarded = [];
 }

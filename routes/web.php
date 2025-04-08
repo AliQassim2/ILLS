@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Users;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\StoryCommentController;
@@ -69,4 +70,20 @@ Route::controller(Users::class)->group(function () {
 
 
 
-//
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/save-score', function (Request $request) {
+    $request->validate([
+        'score' => 'required|integer',
+        'story_id' => 'required|exists:stories,id'
+    ]);
+
+    \App\Models\Result::create([
+        'user_id' => Auth::id(), // Or handle guests if needed
+        'stories_id' => $request->story_id, // match column name in your DB
+        'score' => $request->score,
+    ]);
+
+    return response()->json(['message' => 'Score saved']);
+})->name('save-score');

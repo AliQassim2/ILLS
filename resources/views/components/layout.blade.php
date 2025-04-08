@@ -28,21 +28,21 @@
     <header class="d-flex justify-content-around align-items-center  ">
         <img src="{{ asset('imges/logo.png') }}" alt="Logo">
         <nav class="nav-phone   d-lg-none">
-            <button onclick="list()"><i class="fa-solid fa-bars" ></i></button>
+            <button onclick="list()"><i class="fa-solid fa-bars"></i></button>
             <div class="conten position-absolute">
 
                 <x-list classes="text-black home" url="/">Home</x-nav>
 
-                <x-list classes="text-black rank" url="/rank">Rank</x-nav>
-                <x-list classes="text-black stories" url="/stories">Stories</x-nav>
-                <x-list classes="text-black about us" url="/about">About us</x-nav>
-                @auth
-                <x-list classes="text-black profile" url="/profile">Profile</x-nav>
+                    <x-list classes="text-black rank" url="/rank?sort=score&page=1">Rank</x-nav>
+                        <x-list classes="text-black stories" url="/stories">Stories</x-nav>
+                            <x-list classes="text-black about us" url="/about">About us</x-nav>
+                                @auth
+                                <x-list classes="text-black profile" url="/profile">Profile</x-nav>
 
-                @endauth
-                @guest
-                <x-list classes="text-black" url="/login">login</x-nav>
-                @endguest
+                                    @endauth
+                                    @guest
+                                    <x-list classes="text-black" url="/login">login</x-nav>
+                                        @endguest
 
             </div>
         </nav>
@@ -50,18 +50,18 @@
     <nav class=" d-none  d-lg-flex justify-content-center ">
         <ul class="nav rounded-pill justify-content-center shadow ">
 
-                        <x-list classes="text-black home" url="/">Home</x-nav>
+            <x-list classes="text-black home" url="/">Home</x-nav>
 
-                        <x-list classes="text-black rank" url="/rank">Rank</x-nav>
-                        <x-list classes="text-black stories" url="/stories">Stories</x-nav>
+                <x-list classes="text-black rank" url="/rank?sort=score&page=1">Rank</x-nav>
+                    <x-list classes="text-black stories" url="/stories">Stories</x-nav>
                         <x-list classes="text-black about us" url="/about">About us</x-nav>
-                    @auth
-                        <x-list classes="text-black profile" url="/profile">Profile</x-nav>
+                            @auth
+                            <x-list classes="text-black profile" url="/profile">Profile</x-nav>
 
-                    @endauth
-                    @guest
-                        <x-list classes="text-black" url="/login">login</x-nav>
-                    @endguest
+                                @endauth
+                                @guest
+                                <x-list classes="text-black" url="/login">login</x-nav>
+                                    @endguest
         </ul>
     </nav>
 

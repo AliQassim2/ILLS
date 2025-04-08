@@ -1,12 +1,10 @@
-
 <x-layout>
     <div class="container mt-5">
         <div class="filter d-flex justify-content-between align-items-center mb-5 ">
-            <select class=" f form-select w-25" aria-label="Default select example">
-                    <option selected>Sort by</option>
-                    <option value="1">Difficulty</option>
-                    <option value="2">Rating</option>
-                    <option value="3">Most Viewed</option>
+            <select class=" f form-select w-25" aria-label="Default select example" value="Sort by">
+                <option selected style="display: none;">Sort by</option>
+                <option value="2">Rating</option>
+                <option value="3">Most Viewed</option>
             </select>
             <div class="s search d-flex  justify-content-end">
                 <div class="form-outline" data-mdb-input-init>
@@ -26,6 +24,7 @@
                     <div class="card-body d-flex flex-column">
                         <!-- Story Title -->
                         <h5 class="card-title fw-bold text-dark">{{ $story->title }}</h5>
+                        <p class="card-text text-muted">{{ Str::limit($story->description, 100) }}</p>
 
                         <!-- Author -->
                         <p class="text-muted mb-2">
@@ -71,10 +70,11 @@
 
     <!-- CSS for Hover Effect -->
     <style>
-        .btn-primary{
+        .btn-primary {
             background-color: #B6D2C1;
-            border:none;
+            border: none;
         }
+
         .transition-hover {
             transition: transform 0.3s ease-in-out;
         }

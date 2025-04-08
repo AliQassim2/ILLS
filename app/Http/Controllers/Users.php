@@ -100,10 +100,10 @@ class Users extends Controller
     {
         return DB::table('results')->where('user_id', $id)->sum('score');
     }
-    public function edit(User $user)
+    public function edit()
     {
-        $totle_score = $this->sum($user->id);
-        $stories = $this->reault($user->id);
+        $totle_score = $this->sum(Auth::user()->id);
+        $stories = $this->reault(Auth::user()->id);
         return view('main.profile', ['user' => Auth::user(), 'totle_score' => $totle_score, 'stories' => $stories]);
     }
     public function logout()

@@ -1,4 +1,5 @@
 <x-layout>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <head>
         <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
@@ -24,10 +25,20 @@
 
                 <hr class="my-3">
 
-                <!-- Quiz Button -->
-                <div class="text-center ont-weight-bold mb-3">
-                    <button class="start-btn btn">Start Quiz</button>
+                <!-- Quiz or Score Display -->
+                <div class="text-center font-weight-bold mb-3">
+                    @auth
+                        @if ($userScore !== null)
+                            <h3 class="text-success">You already took the quiz.</h3>
+                            <h4 class="text-primary">Your score: {{ $userScore }}</h4>
+                        @else
+                            <button class="start-btn btn">Start Quiz</button>
+                        @endif
+                    @else
+                        <button class="start-btn btn">Start Quiz</button>
+                    @endauth
                 </div>
+
 
                 <div class="arremn">
                     <div class="question-container hide" class="hide">
@@ -49,20 +60,20 @@
                     <!-- Likes -->
                     <p class="mb-0 text-secondary">
                         @auth
-                        <input type="hidden" name="story_id" value="{{ $story->id }}" id="story_id">
-                        <button class="like-btn" data-liked="1">
-                            👍 <span class="likes-count">{{ $story->story_like->where('like', 1)->count() }}</span>
-                        </button>
-                        <button class="dislike-btn" data-liked="-1">
-                            👎 <span class="dislikes-count">{{ $story->story_like->where('like', -1)->count() }}</span>
-                        </button>
+                            <input type="hidden" name="story_id" value="{{ $story->id }}" id="story_id">
+                            <button class="like-btn" data-liked="1">
+                                👍 <span class="likes-count">{{ $story->story_like->where('like', 1)->count() }}</span>
+                            </button>
+                            <button class="dislike-btn" data-liked="-1">
+                                👎 <span class="dislikes-count">{{ $story->story_like->where('like', -1)->count() }}</span>
+                            </button>
                         @else
-                        <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
-                        <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
-                        <span class="fw-bold">{{ $story->story_like->where('like', 1)->count() }}</span> Likes
+                            <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
+                            <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
+                            <span class="fw-bold">{{ $story->story_like->where('like', 1)->count() }}</span> Likes
 
-                        <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>
-                        <span class="fw-bold">{{ $story->story_like->where('like', -1)->count() }}</span> Dislikes
+                            <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>
+                            <span class="fw-bold">{{ $story->story_like->where('like', -1)->count() }}</span> Dislikes
                         @endauth
                     </p>
 
@@ -76,161 +87,139 @@
     </div>
     <script>
         document.title = "Story";
+        // DOM elements
+        const text = document.querySelector('.story-content');
+        const startBtn = document.querySelector('.start-btn');
+        const controls = document.querySelector('.controls');
+        const nextBtn = document.querySelector('.next-btn');
+        const questionContainer = document.querySelector('.question-container');
+        const questionTitle = document.querySelector('.question');
+        const answerButtons = document.querySelector('.answer-btns');
+        const scoreHeader = document.querySelector('.score');
 
-        const text = document.querySelector('.story-content')
-        const start_btn = document.querySelector('.start-btn')
-        const controls = document.querySelector('.controls')
-        const next_btn = document.querySelector('.next-btn')
-        const questions = document.querySelector('.question-container')
-        const questions_title = document.querySelector('.question')
-        const answers = document.querySelector('.answer-btns')
-        let shows = document.createElement("button")
-        let scoreheader = document.querySelector('.score')
+        let showScoreBtn = document.createElement("button");
+        let shuffledQuestions, currentIndex, score;
 
-        let shufle, curent, score
-
-
-        start_btn.addEventListener('click', startQuiz)
-        next_btn.addEventListener('click', () => {
-            curent++
-            nextQuestion()
-        })
+        startBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            nextQuestion();
+        });
 
         function startQuiz() {
-            text.style.filter = "blur(4px)"
-            start_btn.classList.add('hide')
-            questions.classList.remove('hide')
-            shufle = questions_lists.sort(() => Math.random() - .5)
-            curent = 0
-            score = 0
-            nextQuestion()
+            text.style.filter = "blur(4px)";
+            startBtn.classList.add('hide');
+            questionContainer.classList.remove('hide');
+            shuffledQuestions = questionsList.sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            score = 0;
+            nextQuestion();
         }
-
 
         function nextQuestion() {
-            reset()
-            show(shufle[curent])
+            resetState();
+            displayQuestion(shuffledQuestions[currentIndex]);
         }
 
-        function reset() {
-            next_btn.classList.add('hide')
-            while (answers.firstChild) {
-                answers.removeChild(answers.firstChild)
-            }
+        function resetState() {
+            nextBtn.classList.add('hide');
+            answerButtons.innerHTML = ''; // clears all buttons
         }
 
-        function show(q) {
-            questions_title.innerHTML = q.question
-            q.answers.sort(() => Math.random() - .5).forEach(answer => {
-                const btn = document.createElement('button')
-                btn.innerHTML = answer.text
-                btn.classList.add('btn')
-                if (answer.correct) {
-                    btn.dataset.correct = answer.correct
-                }
-                btn.addEventListener('click', selectAnswer)
-                answers.appendChild(btn)
+        function displayQuestion(question) {
+            questionTitle.innerText = question.question;
+            question.answers.sort(() => Math.random() - 0.5).forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                if (answer.correct) button.dataset.correct = true;
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
             });
-
         }
 
         function selectAnswer(e) {
-            const selected = e.target
-            const correct = selected.dataset.correct
-            if (correct) {
-                score++
-            }
-            Array.from(answers.children).forEach((btn) => {
-                setStatusClass(btn, btn.dataset.correct)
-            })
-            if (shufle.length > curent + 1) {
-                next_btn.classList.remove('hide')
+            const selected = e.target;
+            const correct = selected.dataset.correct === 'true';
+
+            if (correct) score += 10;
+
+            Array.from(answerButtons.children).forEach(button =>
+                setStatusClass(button, button.dataset.correct === 'true')
+            );
+
+            if (shuffledQuestions.length > currentIndex + 1) {
+                nextBtn.classList.remove('hide');
             } else {
-
-                shows.innerHTML = "Show Score"
-                controls.appendChild(shows)
-                shows.classList.add('show')
-                shows.addEventListener('click', showScore)
-            }
-
-        }
-
-        function setStatusClass(element, correct) {
-            clearStatusClass(element)
-
-            if (correct) {
-                element.classList.add('correct')
-            } else {
-                element.classList.add('wrong')
-            }
-            element.disabled = true
-        }
-
-        function clearStatusClass(element) {
-            element.classList.remove('correct')
-            element.classList.remove('wrong')
-        }
-
-        function showScore() {
-            text.style.filter = "blur(0)"
-            shows.classList.add('hide')
-            questions.classList.add('hide')
-            if (score >= questions_lists.length / 2) {
-                scoreheader.innerHTML = `PASS , your score is ${score}`
-            } else {
-                scoreheader.innerHTML = `FAILED , your score is ${score}`
+                showScoreBtn.innerText = "Show Score";
+                showScoreBtn.classList.add('show');
+                controls.appendChild(showScoreBtn);
+                showScoreBtn.addEventListener('click', showFinalScore);
             }
         }
 
+        function setStatusClass(button, isCorrect) {
+            button.classList.add(isCorrect ? 'correct' : 'wrong');
+            button.disabled = true;
+        }
 
-        const questions_lists = [{
-                question: 'what is the best language',
-                answers: [{
-                        text: "CSS",
-                        correct: false
+        function showFinalScore() {
+            text.style.filter = "blur(0)";
+            showScoreBtn.classList.add('hide');
+            questionContainer.classList.add('hide');
+
+            const result = score >= shuffledQuestions.length / 2 ? "PASS" : "FAILED";
+            scoreHeader.innerText = `${result}, your score is ${score}`;
+
+            // Send score to Laravel
+            fetch("{{ route('save-score') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
-                    {
-                        text: "HTML",
-                        correct: true
-                    },
-                    {
-                        text: "JS",
-                        correct: false
-                    },
-                    {
-                        text: "PHP",
-                        correct: false
-                    },
-                ],
-            },
-            {
-                question: 'do you like apples',
-                answers: [{
-                        text: "no",
-                        correct: false
-                    },
-                    {
-                        text: "yes",
-                        correct: true
-                    },
-                ],
-            },
-            {
-                question: '2+2 = ?',
-                answers: [{
-                        text: "3",
-                        correct: false
-                    },
-                    {
-                        text: "20",
-                        correct: false
-                    },
-                    {
-                        text: "4",
-                        correct: true
-                    },
-                ],
-            }
-        ]
+                    body: JSON.stringify({
+                        score: score,
+                        story_id: {{ $story->id }} // Make sure $story is passed to the Blade view
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Score saved:', data);
+                })
+                .catch(error => {
+                    console.error('Error saving score:', error);
+                });
+        }
+
+
+
+        // Static questions for now (will be replaced by Laravel data)
+        const questionsList = [
+            @foreach ($qustions as $question)
+                {
+                    question: '{{ $question->question }}',
+                    answers: [{
+                            text: "{{ $question->answer1 }}",
+                            correct: false
+                        },
+                        {
+                            text: "{{ $question->answer2 }}",
+                            correct: false
+                        },
+                        {
+                            text: "{{ $question->answer3 }}",
+                            correct: false
+                        },
+                        {
+                            text: "{{ $question->correct_answer }}",
+                            correct: true
+                        },
+                    ]
+                },
+            @endforeach
+
+        ];
     </script>
+
 </x-layout>

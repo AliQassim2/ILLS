@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\stories;
+use App\Models\questions;
+
+use Illuminate\Support\Facades\Auth;
+use App\Models\result;
 use App\Http\Requests\StorestoriesRequest;
 use App\Http\Requests\UpdatestoriesRequest;
 
@@ -21,16 +25,26 @@ class StoriesController extends Controller
         return view('main.stories', compact('stories'));
     }
 
+    // Make sure this is imported
 
-    /**
-     * Display the specified resource.
-     */
     public function show(stories $stories)
     {
         $story = $stories->with('user')->findOrFail($stories->id);
         $story->increment('views');
-        return view('main.story', compact('story'));
+
+        $qustions = questions::where('stories_id', $story->id)->get();
+
+        $userScore = null;
+
+        if (Auth::check()) {
+            $userScore = result::where('user_id', Auth::id())
+                ->where('stories_id', $story->id)
+                ->value('score'); // or ->first() if you need more info
+        }
+
+        return view('main.story', compact('story', 'qustions', 'userScore'));
     }
+
 
 
     /**
