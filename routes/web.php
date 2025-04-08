@@ -79,7 +79,7 @@ Route::post('/save-score', function (Request $request) {
         'story_id' => 'required|exists:stories,id'
     ]);
 
-    \App\Models\Result::create([
+    \App\Models\result::create([
         'user_id' => Auth::id(), // Or handle guests if needed
         'stories_id' => $request->story_id, // match column name in your DB
         'score' => $request->score,
