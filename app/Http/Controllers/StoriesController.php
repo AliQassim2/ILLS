@@ -14,11 +14,13 @@ class StoriesController extends Controller
     public function index()
     {
         $stories = stories::with('user')
-            ->withSum('story_like as like_count', 'like')
-            ->orderBy('like_count', 'DESC') // Order by most likes
+            ->withCount('likedStoryLikes as like_count') // alias like_count
+            ->orderBy('like_count', 'DESC')
             ->simplePaginate(6);
+
         return view('main.stories', compact('stories'));
     }
+
 
     /**
      * Display the specified resource.
