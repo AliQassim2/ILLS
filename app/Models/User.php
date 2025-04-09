@@ -58,4 +58,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(result::class);
     }
+    public function hasLikedStory($story)
+    {
+        return $story->story_like->where('user_id', $this->id)->where('like', 1)->count() > 0;
+    }
+
+    public function hasDislikedStory($story)
+    {
+        return $story->story_like->where('user_id', $this->id)->where('like', -1)->count() > 0;
+    }
 }

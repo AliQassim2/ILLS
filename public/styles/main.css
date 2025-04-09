@@ -181,3 +181,15 @@ footer a{
 
 }
 /* story end */
+.like-btn .bi-hand-thumbs-up-fill,
+.dislike-btn .bi-hand-thumbs-down-fill {
+    color: white;
+}
+
+.like-btn.active {
+    background-color: #198754;
+}
+
+.dislike-btn.active {
+    background-color: #dc3545;
+}

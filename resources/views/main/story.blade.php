@@ -61,21 +61,26 @@
                     <!-- Likes -->
                     <p class="mb-0 text-secondary">
                         @auth
-                            <input type="hidden" name="story_id" value="{{ $story->id }}" id="story_id">
-                            <button class="like-btn" data-liked="1">
-                                👍 <span class="likes-count">{{ $story->story_like->where('like', 1)->count() }}</span>
-                            </button>
-                            <button class="dislike-btn" data-liked="-1">
-                                👎 <span class="dislikes-count">{{ $story->story_like->where('like', -1)->count() }}</span>
-                            </button>
-                        @else
-                            <i class="bi bi-hand-thumbs-up-fill text-success fs-5"></i>
-                            <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
-                            <span class="fw-bold">{{ $story->story_like->where('like', 1)->count() }}</span> Likes
+                            <input type="hidden" id="story_id" value="{{ $story->id }}">
 
-                            <i class="bi bi-hand-thumbs-down-fill text-danger fs-5 ms-3"></i>
-                            <span class="fw-bold">{{ $story->story_like->where('like', -1)->count() }}</span> Dislikes
+                            <!-- Like Button -->
+                            <button class="like-btn btn border-0 me-2" data-like="1">
+                                <i class="fa-regular fa-thumbs-up fa-xl text-success"></i>
+                                <span
+                                    class="likes-count fw-semibold">{{ $story->story_like->where('like', 1)->count() }}</span>
+                            </button>
+
+                            <!-- Dislike Button -->
+                            <button class="dislike-btn btn border-0" data-like="-1">
+                                <i class="fa-regular fa-thumbs-down fa-xl text-danger"></i>
+                                <span
+                                    class="dislikes-count fw-semibold">{{ $story->story_like->where('like', -1)->count() }}</span>
+                            </button>
                         @endauth
+
+
+
+
                     </p>
 
                     <!-- Comments Button -->
@@ -86,6 +91,49 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const likeBtn = document.querySelector('.like-btn');
+            const dislikeBtn = document.querySelector('.dislike-btn');
+            const storyId = document.querySelector('#story_id').value;
+
+            function toggleLikeDislike(button, likeValue) {
+                fetch(`/like/${storyId}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            like: likeValue
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update counts
+                        document.querySelector('.likes-count').textContent = data.likes;
+                        document.querySelector('.dislikes-count').textContent = data.dislikes;
+
+                        // Reset both icons
+                        likeBtn.querySelector('i').className = 'bi bi-hand-thumbs-up';
+                        dislikeBtn.querySelector('i').className = 'bi bi-hand-thumbs-down';
+
+                        // Toggle active icon
+                        if (likeValue === 1 && data.likes > 0) {
+                            likeBtn.querySelector('i').classList.add('bi-hand-thumbs-up-fill');
+                        } else if (likeValue === -1 && data.dislikes > 0) {
+                            dislikeBtn.querySelector('i').classList.add('bi-hand-thumbs-down-fill');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            likeBtn.addEventListener('click', () => toggleLikeDislike(likeBtn, 1));
+            dislikeBtn.addEventListener('click', () => toggleLikeDislike(dislikeBtn, -1));
+        });
+    </script>
+
     <script>
         document.title = "Story";
         // DOM elements
