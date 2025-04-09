@@ -34,7 +34,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\stories::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->boolean('like');
+            $table->smallInteger('like');
 
             $table->timestamps();
         });
