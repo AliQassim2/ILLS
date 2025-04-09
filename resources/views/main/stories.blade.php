@@ -1,21 +1,35 @@
 <x-layout>
     <div class="container mt-5">
-        <div class="filter d-flex justify-content-between align-items-center mb-5 ">
-            <select class=" f form-select w-25" aria-label="Default select example" value="Sort by">
-                <option selected style="display: none;">Sort by</option>
-                <option value="2">Rating</option>
-                <option value="3">Most Viewed</option>
-            </select>
-            <div class="s search d-flex  justify-content-end">
-                <div class="form-outline" data-mdb-input-init>
-                    <input type="search" id="form1" class="form-control" />
+        <div class="filter row align-items-center mb-4">
+            <!-- Sort Dropdown -->
+            <div class="col-md-6 mb-2">
+                <form method="get">
+                    <div class="input-group">
+                        <span class="input-group-text bg-primary text-white">
+                            <i class="fas fa-sort-amount-down-alt"></i>
+                        </span>
+                        <select name="status" class="form-select" onchange="this.form.submit()">
+                            <option hidden>Sort by</option>
+                            <option value="Rating" {{ request('status') == 'Rating' ? 'selected' : '' }}>Rating</option>
+                            <option value="Most Viewed" {{ request('status') == 'Most Viewed' ? 'selected' : '' }}>Most Viewed</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
 
-                </div>
-                <button type="button" class="btn btn-primary" data-mdb-ripple-init>
-                    Search
-                </button>
+            <!-- Search Form -->
+            <div class="col-md-6 mb-2">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="search" name="search" id="searchInput" class="form-control" placeholder="Search..." value="{{ request('search') }}">
+                        <button type="submit" class="btn btn-outline-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+
 
         <div class="row">
             @foreach ($stories as $story)
