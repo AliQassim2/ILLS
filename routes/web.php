@@ -53,14 +53,14 @@ Route::controller(StoryLikeController::class)->group(function () {
 
 //Users
 Route::controller(Users::class)->group(function () {
-    Route::get('/rank', 'index');
-    Route::get('/login', 'display_login');
-    Route::post('/login',  'login')->name('login');
+    Route::get('/rank', 'index')->name('rank');
+    Route::get('/login', 'display_login')->name('login');
+    Route::post('/login',  'login')->name('login.process');
     Route::post('/logout',  'logout')->middleware('auth')->name('logout');
-    Route::get('/signup', 'create')->middleware('guest');
-    Route::post('/signup', 'store')->middleware('guest');
-    Route::get('/profile', 'edit')->middleware('auth');
-    Route::patch('/profile/{user}',  'update')->middleware('auth');
+    Route::get('/signup', 'create')->middleware('guest')->name('signup');
+    Route::post('/signup', 'store')->middleware('guest')->name('signup.store');
+    Route::get('/profile', 'edit')->middleware('auth')->name('profile');
+    Route::patch('/profile/{user}',  'update')->middleware('auth')->name('profile.update');
     Route::get('/verify-email',  'showVerificationPage')->name('verify-email')->middleware('auth');
     Route::post('/verify-email',  'processVerification')->name('verify-email.process')->middleware('auth');
     Route::get('/verify-email/resend',  'resendVerification')->name('verify-email.resend')->middleware('auth');
@@ -101,13 +101,13 @@ Route::controller(DashboardController::class)->group(function () {
         Route::post('/dashboard/users/{id}/upgrade',  'upgradeToPublisher')->name('dashboard.users.upgrade');
         Route::post('/dashboard/users/{id}/downgrade',  'downgrade')->name('dashboard.users.downgrade');
         Route::post('/dashboard/users/{id}/ban',  'toggleBan')->name('dashboard.users.ban');
+        Route::post('/dashboard/users/{id}/fullban',  'toggleFullBan')->name('dashboard.users.fullban');
         Route::delete('/dashboard/stories/{id}/delete',  'deleteStory')->name('dashboard.stories.delete');
         Route::post('/dashboard/stories/{id}/suggested',  'suggested')->name('dashboard.stories.suggested');
     });
     // Stories
     Route::middleware(['verify', 'auth', 'publisher'])->group(
         function () {
-
             Route::get('/dashboard/stories',  'stories')->name('dashboard.stories');
             Route::get('/dashboard/stories/create',  'createStory')->name('dashboard.stories.create');
             Route::post('/dashboard/stories/store',  'storeStory')->name('dashboard.stories.store');

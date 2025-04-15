@@ -18,7 +18,7 @@ class Users extends Controller
      */
     public function index()
     {
-        $query = User::where('role', 1);
+        $query = User::where('role', 1)->whereNotNull('email_verified_at')->where('is_banned', '!=', 2);
         if (request()->sort == 'stories') {
             $query = $query->withCount(['result as stories_count' => function ($subquery) {
                 $subquery->select(DB::raw('count(stories_id)'));
@@ -57,6 +57,7 @@ class Users extends Controller
         session(['email_verification_user' => $user->id]);
         // Send the email with the key
         Mail::to($user->email)->send(new verified($key));
+        $request->session()->regenerate();
 
         return redirect('/verify-email');
     }
@@ -72,10 +73,7 @@ class Users extends Controller
 
         return back()->with('success', 'Verification email resent.');
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show() {}
+
 
     public function display_login()
     {
@@ -92,9 +90,11 @@ class Users extends Controller
         if (!Auth::attempt($attributes)) {
             throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
         }
-
+        if (Auth::user()->is_banned ==  2) {
+            Auth::logout();
+            throw ValidationException::withMessages(['unAuth' => 'Sorry, your account has been banned.']);
+        }
         $request->session()->regenerate();
-        // dd($request->input('redirect'), url()->previous());
 
         // Redirect to the intended page or fallback to the previous URL
         return redirect(route('home'));

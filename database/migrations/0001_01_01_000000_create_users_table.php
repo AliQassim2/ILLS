@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone_number')->nullable();
             $table->tinyInteger('role')->default('1');
-            $table->boolean('is_banned')->default(false);
+            $table->tinyInteger('is_banned')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

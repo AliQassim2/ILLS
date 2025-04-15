@@ -30,8 +30,10 @@
                 @endif
             </td>
             <td>
-                @if ($user->is_banned)
+                @if ($user->is_banned == 1)
                 <span class="badge bg-danger">Banned</span>
+                @elseif ($user->is_banned == 2)
+                <span class="badge bg-danger">Full Ban</span>
                 @else
                 <span class="badge bg-success">Active</span>
                 @endif
@@ -50,12 +52,21 @@
                 </form>
                 @endif
 
-                <!-- Ban/Unban Button with Confirmation -->
+                <!-- Regular Ban/Unban Button -->
                 <form action="{{ route('dashboard.users.ban', $user->id) }}" method="POST" class="d-inline">
                     @csrf
-                    <button class="btn btn-sm {{ $user->is_banned ? 'btn-success' : 'btn-danger' }}"
-                        onclick="return confirm('Are you sure you want to {{ $user->is_banned ? 'unban' : 'ban' }} this user?')">
-                        {{ $user->is_banned ? 'Unban' : 'Ban' }}
+                    <button class="btn btn-sm {{ $user->is_banned == 1 ? 'btn-success' : 'btn-danger' }}"
+                        onclick="return confirm('Are you sure you want to {{ $user->is_banned == 1 ? 'unban' : 'ban' }} this user?')">
+                        {{ $user->is_banned == 1 ? 'Unban' : 'Ban' }}
+                    </button>
+                </form>
+
+                <!-- Full Ban/Unban Button -->
+                <form action="{{ route('dashboard.users.fullban', $user->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    <button class="btn btn-sm {{ $user->is_banned == 2 ? 'btn-success' : 'btn-danger' }}"
+                        onclick="return confirm('Are you sure you want to {{ $user->is_banned == 2 ? 'remove full ban' : 'apply full ban' }} for this user?')">
+                        {{ $user->is_banned == 2 ? 'Remove Full Ban' : 'Full Ban' }}
                     </button>
                 </form>
             </td>

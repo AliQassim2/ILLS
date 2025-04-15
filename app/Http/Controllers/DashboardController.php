@@ -41,10 +41,24 @@ class DashboardController extends Controller
     public function toggleBan($id)
     {
         $user = User::findOrFail($id);
-        if ($user->is_banned) {
-            $user->is_banned = false;
+        if ($user->is_banned == 1) {
+            $user->is_banned = 0;
         } else {
-            $user->is_banned = true;
+            $user->is_banned = 1;
+            story_comment::where('user_id', $user->id)->delete();
+            story_like::where('user_id', $user->id)->delete();
+        }
+        $user->save();
+
+        return back()->with('success', 'User ban status changed.');
+    }
+    public function toggleFullBan($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->is_banned == 2) {
+            $user->is_banned = 0;
+        } else {
+            $user->is_banned = 2;
             story_comment::where('user_id', $user->id)->delete();
             story_like::where('user_id', $user->id)->delete();
         }

@@ -6,7 +6,7 @@
 
                 <!-- Add Comment Form -->
                 @auth
-                @if (Auth::user()->is_banned == false)
+                @if (Auth::user()->is_banned == 0)
 
 
                 <div class="card shadow-sm mb-4 rounded-4 border-0">
