@@ -30,10 +30,7 @@
                 <label for="exampleInputEmail1" class="form-label">Email</label>
                 <input type="email" value="{{ $user->email }}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
             </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">phone number</label>
-                <input class="form-control" type="text" value="{{ $user->phone_number }}" name="phone_number">
-            </div>
+
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input class="form-control" type="password" name='password'>

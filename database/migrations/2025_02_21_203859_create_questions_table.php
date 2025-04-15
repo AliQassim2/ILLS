@@ -20,21 +20,6 @@ return new class extends Migration
             $table->string('answer1');
             $table->string('answer2');
             $table->string('answer3');
-            $table->bigInteger('likes')->default(0);
-            $table->timestamps();
-        });
-        Schema::create('question_likes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(\App\Models\questions::class)->constrained()->onDelete('cascade');
-            $table->boolean('like');
-            $table->timestamps();
-        });
-        Schema::create('question_comments', function (Blueprint $table) {
-            $table->id();
-            $table->string('body');
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(\App\Models\questions::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
         Schema::create('results', function (Blueprint $table) {

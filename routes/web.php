@@ -1,68 +1,69 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\StoriesController;
 use App\Http\Controllers\StoryCommentController;
 use App\Http\Controllers\StoryLikeController;
 use App\Http\Controllers\QuestionsController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 //Home
-Route::view('/', 'main.main');
+Route::get('/',  function () {
+    $stories = \App\Models\stories::with('user')->where('is_active', true)
+        ->orderBy('created_at', 'DESC')->where('suggested', true)
+        ->simplePaginate(4);
+    $user = new \App\Http\Controllers\Users();
+    $reading = $user->reault(Illuminate\Support\Facades\Auth::id());
+    return view('main.main', compact('stories', 'reading'));
+})->name('home')->middleware('verify');
 Route::view('/about', 'main.Aboutus');
-Route::view('/quize', 'main.quizA');
-Route::view('/test', 'main.test');
-Route::view('/track', 'main.Track');
 
 
 //Stories
 Route::controller(StoriesController::class)->group(function () {
     Route::get('/stories', 'index');
     Route::get('/stories/{stories}', 'show');
-    Route::get('/stories/create', 'create')->middleware('auth');
-    Route::post('/stories', 'store')->middleware('auth');
-    Route::get('/stories/{stories}/edit', 'edit')->middleware('auth');
-    Route::patch('/stories/{stories}', 'update')->middleware('auth');
-    Route::delete('/stories/{stories}', 'destroy')->middleware('auth');
-    Route::get('/quiz/{id}', 'quiz')->middleware('auth');
 });
 //StoryComment
 Route::controller(StoryCommentController::class)->group(function () {
-    Route::get('/story/{id}', 'index');
-    Route::post('/story/{id}', 'store')->middleware('auth');
-    Route::delete('/story', 'destroy')->middleware('auth');
+    Route::get('/comment/{story_id}', 'index')->name('comment.index');
+    Route::middleware('verify', 'auth')->group(function () {
+        Route::post('/comment/{comment_id}/create', 'store')->name('comment.create');
+        Route::get('/comment/{comment}/edit', 'edit')->name('comment.edit');
+        Route::put('/comment/{comment_id}', 'update')->name('comment.update');
+        Route::delete('/comment/{comment_id}', 'destroy')->name('comment.delete');
+    });
 });
 
 
 //StoryLike
 Route::controller(StoryLikeController::class)->group(function () {
-    Route::post('/like/{id}', 'toggleLike')->middleware('auth');
+    Route::post('/like/{id}', 'toggleLike')->middleware('verify', 'auth');
 });
 
 
-//Questions
-Route::controller(QuestionsController::class)->group(function () {
-    Route::get('/questions', 'index');
-    Route::get('/questions/{questions}', 'show');
-    Route::get('/questions/create', 'create')->middleware('auth');
-    Route::post('/questions', 'store')->middleware('auth');
-    Route::get('/questions/{questions}/edit', 'edit')->middleware('auth');
-    Route::patch('/questions/{questions}', 'update')->middleware('auth');
-    Route::delete('/questions/{questions}', 'destroy')->middleware('auth');
-});
+
 
 
 
 //Users
 Route::controller(Users::class)->group(function () {
     Route::get('/rank', 'index');
-    Route::get('/login', 'display_login')->middleware('guest');
-    Route::post('/login',  'login')->name('login')->middleware('guest');
-    Route::post('/logout',  'logout')->middleware('auth');
-    Route::get('/signup', 'create');
-    Route::post('/signup', 'store');
+    Route::get('/login', 'display_login');
+    Route::post('/login',  'login')->name('login');
+    Route::post('/logout',  'logout')->middleware('auth')->name('logout');
+    Route::get('/signup', 'create')->middleware('guest');
+    Route::post('/signup', 'store')->middleware('guest');
     Route::get('/profile', 'edit')->middleware('auth');
     Route::patch('/profile/{user}',  'update')->middleware('auth');
+    Route::get('/verify-email',  'showVerificationPage')->name('verify-email')->middleware('auth');
+    Route::post('/verify-email',  'processVerification')->name('verify-email.process')->middleware('auth');
+    Route::get('/verify-email/resend',  'resendVerification')->name('verify-email.resend')->middleware('auth');
 });
 
 
@@ -70,8 +71,7 @@ Route::controller(Users::class)->group(function () {
 
 
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 Route::post('/save-score', function (Request $request) {
     $request->validate([
@@ -86,4 +86,41 @@ Route::post('/save-score', function (Request $request) {
     ]);
 
     return response()->json(['message' => 'Score saved']);
-})->name('save-score');
+})->name('save-score')->middleware('verify', 'auth');
+
+
+
+
+
+Route::controller(DashboardController::class)->group(function () {
+
+
+    Route::middleware(['verify', 'auth', 'admin'])->group(function () {
+        // Users
+        Route::get('/dashboard/users',  'users')->name('dashboard.users');
+        Route::post('/dashboard/users/{id}/upgrade',  'upgradeToPublisher')->name('dashboard.users.upgrade');
+        Route::post('/dashboard/users/{id}/downgrade',  'downgrade')->name('dashboard.users.downgrade');
+        Route::post('/dashboard/users/{id}/ban',  'toggleBan')->name('dashboard.users.ban');
+        Route::delete('/dashboard/stories/{id}/delete',  'deleteStory')->name('dashboard.stories.delete');
+        Route::post('/dashboard/stories/{id}/suggested',  'suggested')->name('dashboard.stories.suggested');
+    });
+    // Stories
+    Route::middleware(['verify', 'auth', 'publisher'])->group(
+        function () {
+
+            Route::get('/dashboard/stories',  'stories')->name('dashboard.stories');
+            Route::get('/dashboard/stories/create',  'createStory')->name('dashboard.stories.create');
+            Route::post('/dashboard/stories/store',  'storeStory')->name('dashboard.stories.store');
+            Route::get('/dashboard/stories/{id}/edit',  'editStory')->name('dashboard.stories.edit');
+            Route::put('/dashboard/stories/{id}/update',  'updateStory')->name('dashboard.stories.update');
+            Route::post('/dashboard/stories/{id}/toggle-status',  'toggleStoryStatus')->name('dashboard.stories.toggle-status');
+            // Questions
+            Route::get('/dashboard/stories/{id}/questions',  'storyQuestions')->name('dashboard.stories.questions.index');
+            Route::get('/dashboard/stories/{id}/questions/create',  'createQuestion')->name('dashboard.stories.questions.create');
+            Route::post('/dashboard/stories/{id}/questions/store',  'storeQuestion')->name('dashboard.stories.questions.store');
+            Route::get('/dashboard/questions/{question}/edit',  'editQuestion')->name('dashboard.questions.edit');
+            Route::put('/dashboard/questions/{question}/update',  'updateQuestion')->name('dashboard.questions.update');
+            Route::delete('/dashboard/questions/{question}/delete',  'deleteQuestion')->name('dashboard.questions.delete');
+        }
+    );
+});

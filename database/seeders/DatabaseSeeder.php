@@ -13,95 +13,85 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory()->create();
-        // \App\Models\stories::factory()->create();
-        // \App\Models\story_comment::factory(5)->create();
-        // \App\Models\story_like::factory(5)->create();
-        // \App\Models\questions::factory(50)->create([
-        //     'stories_id' => 10
 
-        // ]);
-        // \App\Models\question_comment::factory(5)->create();
-        // \App\Models\question_like::factory(5)->create();
-        // \App\Models\result::factory(5)->create();
-        // \App\Models\favorite::factory(5)->create();
-        // \App\Models\story_like::factory(15)->create([
-        //     'stories_id' => 1,
-        //     'user_id' => 4,
-        //     'like' => 1
-        // ]);
-        // \App\Models\story_comment::factory(15)->create([
-        //     'stories_id' => 1,
-        //     'user_id' => 4
-        // ]);
-        \App\Models\User::create([
+        $admin = \App\Models\User::create([
             'id' => 1,
             'name' => 'Admin',
             'email' => 'admin@admin',
             'password' => bcrypt('admin'),
-            'roll' => 0,
+            'role' => 0,
+        ]);
 
-        ]);
-        \App\Models\stories::create([
-            'id' => 1,
-            'body' => 'Lina was walking in the park when she saw a small puppy shivering under a bench. She looked around, but no one seemed to be looking for it. She picked it up and took it to the nearest vet. Luckily, the puppy had a tag, and soon it was reunited with its owner.',
-            'title' => 'The Lost Puppy',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 2,
-            'body' => 'Ali was playing football inside the house even though his mother told him not to. The ball hit a vase and broke it. When his mother came in, he admitted his mistake and apologized.',
-            'title' => 'The Broken Vase',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 3,
-            'body' => 'One evening, the power went out in Anya’s neighborhood. Instead of being upset, her family lit candles and played board games together. They ended up having a lot of fun.',
-            'title' => 'A Day Without Electricity',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 4,
-            'body' => 'The students visited the zoo on their school trip. They saw lions, elephants, and monkeys. Everyone enjoyed the day and learned a lot about animals.',
-            'title' => 'The School Trip',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 5,
-            'body' => 'Ravi found an old pen in the attic. When he wrote with it, the words came true! He used it to help people around him. But he was careful not to be greedy.',
-            'title' => 'The Magic Pen',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 6,
-            'body' => 'It started raining heavily just as Maya was walking to school. She had no umbrella, but her friend stopped to share hers. They both reached school wet but happy.',
-            'title' => 'The Rainy Day',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 7,
-            'body' => 'Jake forgot his homework at home. Instead of lying, he told the teacher the truth. The teacher appreciated his honesty and let him submit it the next day.',
-            'title' => 'The Missing Homework',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 8,
-            'body' => 'A little girl saw a kitten stuck in a tree. While others watched, she climbed up carefully and rescued it. Everyone clapped for her bravery.',
-            'title' => 'The Brave Little Girl',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 9,
-            'body' => 'Sara baked cookies for her brother’s birthday. He was surprised and happy because she did it all by herself for the first time.',
-            'title' => 'The Surprise Gift',
-            'user_id' => 1,
-        ]);
-        \App\Models\stories::create([
-            'id' => 10,
-            'body' => 'A new student joined Rami’s class. He looked shy and nervous. Rami went to him, introduced himself, and became his first friend.',
-            'title' => 'The New Student',
-            'user_id' => 1,
-        ]);
+        // Story data
+        $stories = [
+            [
+                'title' => 'The Lost Puppy',
+                'body' => 'Lina was walking in the park...',
+                'description' => 'Lina finds a lost puppy and helps it return home.',
+            ],
+            [
+                'title' => 'The Broken Vase',
+                'body' => 'Ali was playing football inside...',
+                'description' => 'Ali breaks a vase and chooses honesty.',
+            ],
+            [
+                'title' => 'A Day Without Electricity',
+                'body' => 'One evening, the power went out...',
+                'description' => 'Family bonds grow stronger during a blackout.',
+            ],
+            [
+                'title' => 'The School Trip',
+                'body' => 'The students visited the zoo...',
+                'description' => 'Students enjoy learning during a zoo trip.',
+            ],
+            [
+                'title' => 'The Magic Pen',
+                'body' => 'Ravi found an old pen...',
+                'description' => 'A magical pen that brings words to life.',
+            ],
+            [
+                'title' => 'The Rainy Day',
+                'body' => 'It started raining heavily...',
+                'description' => 'A story of friendship in the rain.',
+            ],
+            [
+                'title' => 'The Missing Homework',
+                'body' => 'Jake forgot his homework...',
+                'description' => 'Jake learns that honesty matters.',
+            ],
+            [
+                'title' => 'The Brave Little Girl',
+                'body' => 'A little girl saw a kitten...',
+                'description' => 'A girl rescues a kitten in need.',
+            ],
+            [
+                'title' => 'The Surprise Gift',
+                'body' => 'Sara baked cookies for her brother...',
+                'description' => 'Sara surprises her brother with cookies.',
+            ],
+            [
+                'title' => 'The New Student',
+                'body' => 'A new student joined Rami’s class...',
+                'description' => 'Rami welcomes a nervous new student.',
+            ],
+        ];
+
+        foreach ($stories as $index => $storyData) {
+            $story = \App\Models\stories::create([
+                'id' => $index + 1,
+                'title' => $storyData['title'],
+                'body' => $storyData['body'],
+                'description' => $storyData['description'],
+                'Author' => 'Admin',
+                'Difficulty' => rand(1, 3),
+                'is_active' => true,
+                'views' => rand(0, 100),
+                'user_id' => $admin->id,
+            ]);
+        }
+
+        // You can leave your questions logic as-is or refactor similarly.
+
         \App\Models\questions::create([
             'question' => 'What did Lina do when she found the puppy?',
             'correct_answer' => 'She took it to the vet',

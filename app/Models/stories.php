@@ -27,12 +27,13 @@ class stories extends Model
     {
         return $this->hasMany(result::class);
     }
+    // In Story model
     public function questions()
     {
         return $this->hasMany(questions::class);
     }
     public function likedStoryLikes()
     {
-        return $this->hasMany(story_like::class)->where('like', true);
+        return $this->hasMany(story_like::class)->where('like', 1);
     }
 }

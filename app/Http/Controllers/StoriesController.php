@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\result;
 use App\Http\Requests\StorestoriesRequest;
 use App\Http\Requests\UpdatestoriesRequest;
+use Illuminate\Http\Request;
 
 class StoriesController extends Controller
 {
@@ -17,11 +18,17 @@ class StoriesController extends Controller
      */
     public function index()
     {
-        $stories = stories::with('user')
-            ->withCount('likedStoryLikes as like_count') // alias like_count
-            ->orderBy('like_count', 'DESC')
-            ->simplePaginate(6);
+        $query = stories::with('user');
+        if (request()->status == 'Rating')
+            $query = $query->withSum('story_like as likes', 'like')->orderBy('likes', 'desc');
+        else if (request()->status == 'Most Viewed')
+            $query = $query->orderBy('views', 'desc');
+        elseif (request()->search)
+            $query = $query->where('title', 'like', '%' . request()->search . '%')->orderBy('created_at', 'DESC');
+        else
+            $query = $query->orderBy('created_at', 'DESC');
 
+        $stories = $query->where('is_active', true)->simplePaginate(6);
         return view('main.stories', compact('stories'));
     }
 
@@ -32,7 +39,7 @@ class StoriesController extends Controller
         $story = $stories->with('user')->findOrFail($stories->id);
         $story->increment('views');
 
-        $qustions = questions::where('stories_id', $story->id)->get();
+        $questions = questions::where('stories_id', $story->id)->get();
 
         $userScore = null;
 
@@ -42,55 +49,6 @@ class StoriesController extends Controller
                 ->value('score'); // or ->first() if you need more info
         }
 
-        return view('main.story', compact('story', 'qustions', 'userScore'));
-    }
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorestoriesRequest $request)
-    {
-        //
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(stories $stories)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatestoriesRequest $request, stories $stories)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(stories $stories)
-    {
-        //
-    }
-
-    public function quiz($id)
-    {
-        $story = stories::with('questions')->findOrFail($id);
-        return view('main.quiz', compact('story'));
+        return view('main.story', compact('story', 'questions', 'userScore'));
     }
 }

@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
-
-
-use function Laravel\Prompts\error;
+use App\Mail\verified;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class Users extends Controller
 {
@@ -18,13 +18,15 @@ class Users extends Controller
      */
     public function index()
     {
+        $query = User::where('role', 1);
         if (request()->sort == 'stories') {
-            $users = User::where('roll', '!=', '0')->withCount(['result as stories_count' => function ($query) {
-                $query->select(DB::raw('count(stories_id)'));
-            }])->orderBy('stories_count', 'DESC')->simplePaginate(20);
+            $query = $query->withCount(['result as stories_count' => function ($subquery) {
+                $subquery->select(DB::raw('count(stories_id)'));
+            }])->orderBy('stories_count', 'DESC');
         } else {
-            $users = User::where('roll', '!=', '0')->withsum('result as score', 'score')->orderBy('score', 'DESC')->simplePaginate(20);
+            $query = $query->withsum('result as score', 'score')->orderBy('score', 'DESC');
         }
+        $users = $query->simplePaginate(20);
         return view('main.rank', ['users' => $users]);
     }
 
@@ -41,17 +43,35 @@ class Users extends Controller
      */
     public function store(Request $request)
     {
-        $validation = request()->validate([
+        $validated = request()->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone_number' => ['nullable', 'digits:11'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
-        $user = User::create($validation);
+        $validated['password'] = bcrypt($validated['password']);
+        $user = User::create($validated);
         Auth::login($user);
-        return redirect('/');
-    }
+        // Generate key and store in session
+        $key = Str::random(6); // or use digits with `Str::random(6)`
+        session(['email_verification_key' => $key]);
+        session(['email_verification_user' => $user->id]);
+        // Send the email with the key
+        Mail::to($user->email)->send(new verified($key));
 
+        return redirect('/verify-email');
+    }
+    public function resendVerification()
+    {
+        $user = Auth::user();
+        // Generate key and store in session
+        $key = Str::random(6); // or use digits with `Str::random(6)`
+        session(['email_verification_key' => $key]);
+        session(['email_verification_user' => $user->id]);
+        // Send the email with the key
+        Mail::to($user->email)->send(new verified($key));
+
+        return back()->with('success', 'Verification email resent.');
+    }
     /**
      * Display the specified resource.
      */
@@ -77,7 +97,7 @@ class Users extends Controller
         // dd($request->input('redirect'), url()->previous());
 
         // Redirect to the intended page or fallback to the previous URL
-        return redirect($request->input('redirect', url('/')));
+        return redirect(route('home'));
     }
 
 
@@ -86,7 +106,6 @@ class Users extends Controller
         $validation = request()->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
-            'phone_number' => ['nullable', 'numeric', 'min:11'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         $user->update($validation);
@@ -109,6 +128,61 @@ class Users extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/');
+        return redirect(route('login'));
+    }
+    public function users()
+    {
+        $users = User::where('role', '!=', 0)->paginate(10);
+        return view('dashboard.dashboard', compact('users'));
+    }
+
+    public function upgrade($id)
+    {
+        $user = User::findOrFail($id);
+        $user->role = 2;
+        $user->save();
+        return back()->with('success', 'User upgraded to publisher.');
+    }
+
+    public function toggleBan($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_banned = !$user->is_banned;
+        $user->save();
+        return back()->with('success', 'User ban status updated.');
+    }
+    public function downgrade($id)
+    {
+        $user = User::findOrFail($id);
+        $user->role = 1; // downgrade to normal user
+        $user->save();
+
+        return back()->with('success', $user->name . ' is now a regular user.');
+    }
+
+
+    public function showVerificationPage()
+    {
+        return view('main.verify');
+    }
+
+    public function processVerification(Request $request)
+    {
+        $request->validate([
+            'key' => 'required|string',
+        ]);
+
+        if ($request->input('key') === session('email_verification_key')) {
+            $user = User::find(session('email_verification_user'));
+            $user->email_verified_at = now();
+            $user->save();
+
+            // Clear session
+            session()->forget(['email_verification_key', 'email_verification_user']);
+
+            return redirect('/')->with('success', 'Email verified!');
+        }
+
+        return back()->withErrors(['key' => 'Invalid verification code.']);
     }
 }

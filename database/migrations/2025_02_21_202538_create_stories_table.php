@@ -14,12 +14,14 @@ return new class extends Migration
     {
         Schema::create('stories', function (Blueprint $table) {
             $table->id();
-            $table->text('body')->nullable();
+            $table->text('body');
+            $table->string('description');
             $table->string('title');
-            $table->string('media')->nullable();
-            $table->tinyInteger('type')->default(1);
+            $table->string('Author')->nullable();
+            $table->tinyInteger('Difficulty')->default(1);
             $table->boolean('is_active')->default(true);
             $table->bigInteger('views')->default(0);
+            $table->boolean('suggested')->default(false);
             $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -34,14 +36,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\stories::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
-            $table->smallInteger('like');
-
-            $table->timestamps();
-        });
-        Schema::create('favorite', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(\App\Models\stories::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->onDelete('cascade');
+            $table->tinyInteger('like');
             $table->timestamps();
         });
     }
