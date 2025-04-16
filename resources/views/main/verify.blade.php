@@ -20,7 +20,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #F1EBDC;
         }
 
         .verification-container {
@@ -118,6 +118,10 @@
             margin-top: 0.5rem;
             text-align: center;
         }
+        #resendBtn{
+            position: static;
+            transform: translateX(0%);
+        }
     </style>
 </head>
 
@@ -158,7 +162,7 @@
 
                 <button type="submit" class="btn ">Verify Email</button>
 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center my-4">
                     <a href="{{route('verify-email.resend')}}" class="btn btn-link" id="resendBtn">
                         Resend verification code
                     </a>
@@ -169,7 +173,7 @@
                 </div>
             </form>
 
-            <div class="d-flex justify-content-center mt-4">
+            <div class="d-flex justify-content-center ">
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
                     <button type="submit" class="btn-logout">Back to login</button>

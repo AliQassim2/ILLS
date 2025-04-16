@@ -23,7 +23,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f7fa;
+            background-color: #F1EBDC;
         }
 
         .login-container {
@@ -93,6 +93,7 @@
 
         .signup-link a {
             color: var(--primary-color);
+            position: static;
             text-decoration: none;
             font-weight: 500;
         }
@@ -145,9 +146,10 @@
                 <button type="submit" class="btn ">Sign In</button>
             </form>
 
-            <div class="signup-link">
-                Don't have an account? <a href="signup">Sign up</a>
-            </div>
+
+        </div>
+        <div class="signup-link">
+                <div>Don't have an account? </div><a href="signup">Sign up</a>
         </div>
     </div>
 

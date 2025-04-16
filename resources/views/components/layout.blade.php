@@ -20,9 +20,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body>
+<body class="d-flex flex-column height" >
     <!-- Header Section -->
-    <header class="d-flex justify-content-between align-items-center px-3 px-md-5">
+    <header class="d-flex  logo-container align-items-center px-3 px-md-5">
         <img src="{{ asset('imges/logo.png') }}" alt="Logo" class="logo">
 
         <!-- Mobile Navigation Toggle -->
@@ -67,26 +67,20 @@
         </ul>
     </nav>
 
-    <main>
+    <main class="hightmain">
         {{ $slot }}
     </main>
 
     <footer class="py-3 mt-4 text-center">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-4 mb-2 mb-md-0">
+                <div class="">
                     <p class="mb-0"><i class="bi bi-envelope me-1"></i> tstone20252024@gmail.com</p>
                 </div>
-                <div class="col-md-4 mb-2 mb-md-0">
+                <div class="">
                     <img src="{{ asset('imges/logo.png') }}" alt="Logo" style="max-width: 100px;">
                 </div>
-                <div class="col-md-4">
-                    <div class="social-icons">
-                        <a href="#" class="mx-1"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="mx-1"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="mx-1"><i class="bi bi-instagram"></i></a>
-                    </div>
-                </div>
+
             </div>
             <p class="mt-2 mb-0">&copy; {{ date('Y') }} TStone</p>
         </div>

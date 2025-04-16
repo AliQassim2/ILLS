@@ -3,6 +3,14 @@
     margin: 0;
     padding: 0;
 }
+.height{
+    min-height: 100vh;
+    justify-content: space-between;
+}
+.hightmain{
+    min-height: 66vh;
+}
+
 
 :root {
     --yellosh: #F1EBDC;
@@ -32,10 +40,17 @@ header .logo {
     max-width: 200px;
     height: auto;
 }
-
+.logo-container{
+    justify-content: space-between;
+}
 @media (min-width: 768px) {
     header .logo {
         max-width: 250px;
+    }
+    .logo-container{
+        background-color: transparent;
+        justify-content: center;
+        box-shadow: none;
     }
 }
 
@@ -186,13 +201,29 @@ img.girl {
     border-bottom-right-radius: 400px;
     transition: transform 0.3s ease;
 }
+.user-wel{
+    background-color: white;
+    padding: 20px 30px 20px ;
+    border-radius: 10px;
+}
+.icon-main {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 48%;
+    padding: 19px;
+    margin-right: 20px;
+}
+.icon-main:hover{
+    box-shadow: black 10px 10px 10px 10px;
+}
 
 img.girl:hover {
     transform: scale(1.02);
 }
 
 .light {
-    max-width: 100%;
+    width: 50rem;
     position: absolute;
     z-index: -1;
     opacity: 0.7;
@@ -205,12 +236,18 @@ img.girl:hover {
     }
 
     img.girl {
-        max-height: 400px;
+        max-height: 500px;
         margin-bottom: 20px;
     }
 
     section .intro {
         text-align: center;
+    }
+    .light {
+        width: 25rem;
+    }
+    svg{
+        margin-right: 20px;
     }
 }
 

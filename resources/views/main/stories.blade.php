@@ -155,7 +155,9 @@
             --primary-light: #B6D2C1;
             --primary-dark: #3A5A4A;
         }
-
+        .card-body{
+            background-color:transparent !important;
+        }
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);

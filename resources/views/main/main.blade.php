@@ -1,10 +1,8 @@
 @guest
 <x-layout>
-    <section class="hero-section py-5">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 order-lg-2">
-                    <img class="img-fluid hero-image" src="imges/student.jpg" alt="student">
+    <section class="d-flex justify-content-center flex-md-row flex-column-reverse align-items-center">
+                <div >
+                    <img class="img-fluid hero-image girl" src="imges/guy.png" alt="student">
                 </div>
                 <div class="col-lg-6 order-lg-1 intro-container">
                     <div class="intro d-flex flex-column justify-content-center align-items-center">
@@ -15,8 +13,7 @@
                         <a href="login" class="cta-button">Register Now!</a>
                     </div>
                 </div>
-            </div>
-        </div>
+
     </section>
     <script>
         document.title = "Home | Language Learning Platform";
@@ -30,10 +27,10 @@
         <div class="container">
             <!-- Welcome Banner -->
             <div class="welcome-banner mb-5">
-                <div class="row align-items-center">
+                <div class=" user-wel d-flex flex-md-row flex-column align-items-center justify-content-center shadow">
                     <div class="col-md-8">
                         <h1 class="fs-2 mb-2">Welcome back, <span class="fw-bold text-accent">{{ Auth::user()->name }}</span>!</h1>
-                        <p class="lead mb-0">Continue your language learning journey with these featured stories.</p>
+                        <p class="lead mb-0 text-center">Continue your language learning journey with these featured stories.</p>
                     </div>
                     <div class="col-md-4 text-md-end mt-3 mt-md-0">
                         <a href="/stories" class="btn">Browse All Stories</a>
@@ -106,7 +103,6 @@
                 @empty
                 <div class="col-12">
                     <div class="empty-state">
-                        <i class="bi bi-journal-x"></i>
                         <h3 class="mt-3 mb-2">No Featured Stories Available</h3>
                         <p class="text-muted">Check back soon or explore our complete collection of stories.</p>
                         <a href="/stories" class="btn mt-2">Browse All Stories</a>
@@ -121,42 +117,41 @@
             </div>
 
             <!-- Quick Stats Section -->
-            <div class="row mt-5 g-4">
+            <div class="row  g-4 ml-2">
                 <div class="col-md-4">
                     <div class="stats-card">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-md-center justify-content-start my-2">
                             <div class="stats-icon bg-mint">
-                                <i class="bi bi-book"></i>
+                                <i class="shadow-sm icon-main bi bi-book"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0 fw-bold">{{ \App\Models\stories::where('is_active', true)->count() }}</h5>
-                                <p class="mb-0">Total Stories</p>
+                                <h5 class="mb-0 fw-bold">{{ \App\Models\stories::where('is_active', true)->count() }} Total Stories</h5>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 justify-content-center">
                     <div class="stats-card">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center justify-content-md-center justify-content-start my-2">
                             <div class="stats-icon bg-green">
-                                <i class="bi bi-people"></i>
+                                <i class="shadow-sm icon-main  bi bi-people"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0 fw-bold">{{ \App\Models\User::where('role', 1)->count() }}</h5>
-                                <p class="mb-0">Community Members</p>
+                                <h5 class="mb-0 fw-bold">{{ \App\Models\User::where('role', 1)->count() }} Community Members</h5>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="stats-card">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center jjustify-content-md-center justify-content-start my-2">
                             <div class="stats-icon bg-light-green">
-                                <i class="bi bi-journal-check"></i>
+                                <i class="shadow-sm small-shadow icon-main  bi bi-journal-check"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0 fw-bold">{{ $reading }}</h5>
-                                <p class="mb-0">Stories You've Read</p>
+                                <h5 class="mb-0 fw-bold">{{ $reading }} Stories You've Read</h5>
+
                             </div>
                         </div>
                     </div>

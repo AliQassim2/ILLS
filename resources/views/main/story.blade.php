@@ -61,7 +61,7 @@
                                     <input type="hidden" id="story_id" value="{{ $story->id }}">
 
                                     <!-- Like Button -->
-                                    <button class="like-btn btn btn-light rounded-circle p-2 me-1" data-like="1">
+                                    <button class="like-btn btn btn-light  p-2 me-1" data-like="1">
                                         <i
                                             class="fa-{{ $story->story_like->where('user_id', auth()->id())->where('like', 1)->count() > 0? 'solid': 'regular' }} fa-thumbs-up fa-lg text-success"></i>
                                     </button>
@@ -184,7 +184,10 @@
     body {
         line-height: 1.6;
     }
-
+    .btn:not(.start-btn,.btn-outline-primary) {
+        background-color: transparent;
+        border:0;
+    }
     .btn-primary {
         background-color: var(--primary-color);
         border-color: var(--primary-color);
