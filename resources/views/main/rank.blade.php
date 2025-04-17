@@ -30,7 +30,7 @@
                     <tr class="text-center">
                         <td>{{ ($index + 1)+ (((request()->page)-1)*20) }}</td>
                         <td class="fw-semibold">{{ $user->name }}</td>
-                        <td>{{ $user->result->sum('scores') }}</td>
+                        <td>{{ $user->result->sum('score') }}</td>
                         <td>{{ $user->result->count('stories_id') }}</td>
                     </tr>
                     @endforeach
