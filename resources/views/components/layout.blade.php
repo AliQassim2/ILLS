@@ -20,10 +20,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="d-flex flex-column height" >
+<body class="d-flex flex-column justify-content-between height" >
     <!-- Header Section -->
-    <header class="d-flex  logo-container align-items-center px-3 px-md-5">
-        <img src="{{ asset('imges/logo.png') }}" alt="Logo" class="logo">
+    <header class="d-flex  logo-container justify-content-md-center justify-content-between align-items-center px-3 px-md-5">
+        <a href="/"><img src="{{ asset('imges/logo.png') }}" alt="Logo" class="logo"></a>
 
         <!-- Mobile Navigation Toggle -->
         <div class="d-lg-none nav-phone">

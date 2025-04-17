@@ -1,5 +1,5 @@
 <x-layout>
-    <section class="d-flex  justify-content-center align-items-center mt-5 flex-column mx-5 ">
+    <section class="d-flex  justify-content-center align-items-center mt-2 flex-column mx-2">
         <h1>Who are we?</h1>
         <hr class="w-75">
         <div class="first d-flex justify-content-center align-items-center flex-column-reverse flex-lg-row info p-2 mx-4 mb-5">
