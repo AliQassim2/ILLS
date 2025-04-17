@@ -20,7 +20,14 @@ class StoriesController extends Controller
     {
         $query = stories::with('user');
         if (request()->status == 'Rating')
-            $query = $query->withSum('story_like as likes', 'like')->orderBy('likes', 'desc');
+            $query = \App\Models\stories::query()
+                ->selectRaw('stories.*, (
+        (select count(*) from story_likes where story_likes.stories_id = stories.id and story_likes.like = 1) -
+        (select count(*) from story_likes where story_likes.stories_id = stories.id and story_likes.like = -1)
+    ) as like_difference')
+                ->where('is_active', 1)
+                ->orderByDesc('like_difference');
+
         else if (request()->status == 'Most Viewed')
             $query = $query->orderBy('views', 'desc');
         elseif (request()->search)

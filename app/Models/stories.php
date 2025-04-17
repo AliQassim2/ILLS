@@ -36,4 +36,8 @@ class stories extends Model
     {
         return $this->hasMany(story_like::class)->where('like', 1);
     }
+    public function disLikedStoryLikes()
+    {
+        return $this->hasMany(story_like::class)->where('like', -1);
+    }
 }
