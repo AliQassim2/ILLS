@@ -27,7 +27,7 @@
         <div class="container">
             <!-- Welcome Banner -->
             <div class="welcome-banner mb-5">
-                <div class=" user-wel d-flex flex-md-row flex-column align-items-center justify-content-center shadow">
+                <div class=" user-wel bg-light px-4 py-3 d-flex flex-md-row flex-column align-items-center justify-content-center shadow">
                     <div class="col-md-8">
                         <h1 class="fs-2 mb-2">Welcome back, <span class="fw-bold text-accent">{{ Auth::user()->name }}</span>!</h1>
                         <p class="lead mb-0 text-center">Continue your language learning journey with these featured stories.</p>

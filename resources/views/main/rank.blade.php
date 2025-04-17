@@ -1,21 +1,21 @@
 <x-layout>
     <div class="container mt-5">
-        <h1 class="text-center fw-bold text-primary mb-4">User Rankings</h1>
+        <h1 class="text-center fw-bold mb-4">User Rankings</h1>
 
         <!-- Rank Selection Buttons -->
         <div class="text-center mb-4">
             @if (request('sort')== 'stories')
-            <a href="?sort=score&page=1 " class="btn btn-outline-primary">Rank by Score</a>
-            <a href="?sort=stories&page=1" class="btn btn-primary ">Rank by Stories Read</a>
+            <a href="?sort=score&page=1 " class="btn btn-outline-primary my-2">Rank by Score</a>
+            <a href="?sort=stories&page=1" class="btn btn-primary  my-2">Rank by Stories Read</a>
             @else
-            <a href="?sort=score&page=1" class="btn btn-primary ">Rank by Score</a>
-            <a href="?sort=stories&page=1" class="btn btn-outline-primary">Rank by Stories Read</a>
+            <a href="?sort=score&page=1" class="btn btn-primary  my-2">Rank by Score</a>
+            <a href="?sort=stories&page=1" class="btn btn-outline-primary  my-2">Rank by Stories Read</a>
 
             @endif
         </div>
 
         <!-- Rank List -->
-        <div class="card shadow-lg p-4 rounded-4 border-0 bg-light">
+        <div class="card shadow-lg p-2 rounded-4 border-0 bg-light">
             <table class="table table-hover">
                 <thead>
                     <tr class="text-center">
