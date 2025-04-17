@@ -28,7 +28,7 @@
         <!-- Mobile Navigation Toggle -->
         <div class="d-lg-none nav-phone">
             <button id="navToggle" aria-label="Toggle navigation">
-                <i class="fa-solid fa-bars"></i>
+                <i class=" mx-4 fa-solid fa-bars"></i>
             </button>
 
             <!-- Mobile Navigation Menu -->
