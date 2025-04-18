@@ -26,8 +26,8 @@ Route::view('/about', 'main.Aboutus');
 
 //Stories
 Route::controller(StoriesController::class)->group(function () {
-    Route::get('/stories', 'index');
-    Route::get('/stories/{stories}', 'show');
+    Route::get('/stories', 'index')->name('stories')->middleware('verify');
+    Route::get('/stories/{stories}', 'show')->name('stories.show')->middleware('verify');
 });
 //StoryComment
 Route::controller(StoryCommentController::class)->group(function () {
