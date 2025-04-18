@@ -24,7 +24,13 @@ class Users extends Controller
                 $subquery->select(DB::raw('count(stories_id)'));
             }])->orderBy('stories_count', 'DESC');
         } else {
-            $query = $query->withsum('result as score', 'score')->orderBy('score', 'ASC');
+            $query = $query->addSelect([
+                'total_score' => function ($subquery) {
+                    $subquery->selectRaw('SUM(score)')
+                        ->from('results')
+                        ->whereColumn('results.user_id', 'users.id');
+                }
+            ])->orderBy('total_score', 'DESC');
         }
         $users = $query->simplePaginate(20);
         return view('main.rank', ['users' => $users]);
