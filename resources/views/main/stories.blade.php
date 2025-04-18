@@ -209,11 +209,6 @@
             gap: 5px;
         }
 
-        .page-item .page-link {
-            border-radius: 8px;
-            color: var(--primary-color);
-        }
-
         .page-item.active .page-link {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
