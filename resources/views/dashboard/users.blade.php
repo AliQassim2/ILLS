@@ -14,6 +14,7 @@
             <th>Email</th>
             <th>Role</th>
             <th>Status</th>
+            <th>Verification</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -36,6 +37,13 @@
                 <span class="badge bg-danger">Full Ban</span>
                 @else
                 <span class="badge bg-success">Active</span>
+                @endif
+            </td>
+            <td>
+                @if ($user->email_verified_at)
+                <span class="badge bg-success">Verified</span>
+                @else
+                <span class="badge bg-warning">Unverified</span>
                 @endif
             </td>
             <td>
@@ -67,6 +75,16 @@
                     <button class="btn btn-sm {{ $user->is_banned == 2 ? 'btn-success' : 'btn-danger' }}"
                         onclick="return confirm('Are you sure you want to {{ $user->is_banned == 2 ? 'remove full ban' : 'apply full ban' }} for this user?')">
                         {{ $user->is_banned == 2 ? 'Remove Full Ban' : 'Full Ban' }}
+                    </button>
+                </form>
+
+                <!-- Delete User Button -->
+                <form action="{{ route('dashboard.users.delete', $user->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-sm btn-danger"
+                        onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
+                        Delete
                     </button>
                 </form>
             </td>

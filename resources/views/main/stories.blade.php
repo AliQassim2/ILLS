@@ -55,6 +55,20 @@
             @forelse ($stories as $story)
             <div class="col-12 col-md-6 col-lg-4 mb-4">
                 <div class="card shadow-sm border-0 rounded-4 h-100 story-card">
+                    <!-- Completion Badge (Top Right) -->
+                    @if (auth()->check() && \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->exists())
+                    <div class="completion-badge-container">
+                        <div class="completion-badge" data-bs-toggle="tooltip" data-bs-placement="top" title="You've completed this story">
+                            <i class="bi bi-check-circle-fill"></i>
+                            @php
+                            $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
+                            $score = $userResult ? $userResult->score : 0;
+                            @endphp
+                            <span class="completion-score">{{ $score }}%</span>
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="card-body d-flex flex-column p-4">
                         <!-- Difficulty Badge -->
                         <div class="mb-2">
@@ -154,10 +168,13 @@
             --primary-color: #5D8B75;
             --primary-light: #B6D2C1;
             --primary-dark: #3A5A4A;
+            --success-color: #198754;
         }
-        .card-body{
-            background-color:transparent !important;
+
+        .card-body {
+            background-color: transparent !important;
         }
+
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
@@ -176,6 +193,7 @@
         .story-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
+            position: relative;
         }
 
         .story-card:hover {
@@ -213,9 +231,48 @@
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
+
+        /* Completion badge container */
+        .completion-badge-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+        }
+
+        /* Completion badge styling */
+        .completion-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background-color: rgba(25, 135, 84, 0.15);
+            border: 1px solid var(--success-color);
+            box-shadow: 0 2px 8px rgba(25, 135, 84, 0.2);
+        }
+
+        .completion-badge i {
+            color: var(--success-color);
+            font-size: 18px;
+        }
+
+        .completion-score {
+            font-weight: bold;
+            color: var(--success-color);
+            font-size: 14px;
+        }
     </style>
 
     <script>
         document.title = "Explore Stories | Reading Platform";
+
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
     </script>
 </x-layout>

@@ -102,6 +102,7 @@ Route::controller(DashboardController::class)->group(function () {
         Route::post('/dashboard/users/{id}/downgrade',  'downgrade')->name('dashboard.users.downgrade');
         Route::post('/dashboard/users/{id}/ban',  'toggleBan')->name('dashboard.users.ban');
         Route::post('/dashboard/users/{id}/fullban',  'toggleFullBan')->name('dashboard.users.fullban');
+        Route::delete('dashboard/users/{user}/delete',  'destroy')->name('dashboard.users.delete');
         Route::delete('/dashboard/stories/{id}/delete',  'deleteStory')->name('dashboard.stories.delete');
         Route::post('/dashboard/stories/{id}/suggested',  'suggested')->name('dashboard.stories.suggested');
     });

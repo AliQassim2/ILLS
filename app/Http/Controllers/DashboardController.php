@@ -239,4 +239,9 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Story feature status updated successfully.');
     }
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully.');
+    }
 }

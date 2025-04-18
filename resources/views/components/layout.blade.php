@@ -20,7 +20,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="d-flex flex-column justify-content-between height" >
+<body class="d-flex flex-column justify-content-between height">
     <!-- Header Section -->
     <header class="d-flex  logo-container justify-content-md-center justify-content-between align-items-center px-3 px-md-5">
         <a href="/"><img src="{{ asset('imges/logo.png') }}" alt="Logo" class="logo"></a>
@@ -38,10 +38,10 @@
                 <li><a href="/stories" class="nav-link {{ Request::is('stories') ? 'active' : '' }}">Stories</a></li>
                 <li><a href="/about" class="nav-link {{ Request::is('about') ? 'active' : '' }}">About us</a></li>
                 @auth
-                <li><a href="/profile" class="nav-link {{ Request::is('profile') ? 'active' : '' }}">Profile</a></li>
                 @if (Auth::user()->role==0 || Auth::user()->role==2)
                 <li><a href="{{ Auth::user()->role == 2 ? route('dashboard.stories') : route('dashboard.users') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">Dashboard</a></li>
                 @endif
+                <li><a href="/profile" class="nav-link {{ Request::is('profile') ? 'active' : '' }}">Profile</a></li>
                 @else
                 <li><a href="/login" class="nav-link {{ Request::is('login') ? 'active' : '' }}">Login</a></li>
                 @endauth
@@ -57,10 +57,10 @@
             <x-list classes="text-black {{ Request::is('stories') ? 'active' : '' }}" url="/stories">Stories</x-list>
             <x-list classes="text-black {{ Request::is('about') ? 'active' : '' }}" url="/about">About us</x-list>
             @auth
-            <x-list classes="text-black {{ Request::is('profile') ? 'active' : '' }}" url="/profile">Profile</x-list>
             @if (Auth::user()->role==0 || Auth::user()->role==2)
             <x-list classes="text-black {{ Request::is('dashboard*') ? 'active' : '' }}" url="{{ Auth::user()->role == 2 ? route('dashboard.stories') : route('dashboard.users') }}">Dashboard</x-list>
             @endif
+            <x-list classes="text-black {{ Request::is('profile') ? 'active' : '' }}" url="/profile">Profile</x-list>
             @else
             <x-list classes="text-black {{ Request::is('login') ? 'active' : '' }}" url="/login">Login</x-list>
             @endauth
