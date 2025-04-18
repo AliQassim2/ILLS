@@ -18,21 +18,23 @@ class Users extends Controller
      */
     public function index()
     {
-        $query = User::where('role', 1)->whereNotNull('email_verified_at')->where('is_banned', '!=', 2);
+        $query = User::where('role', 1)
+            ->whereNotNull('email_verified_at')
+            ->where('is_banned', '!=', 2);
+
         if (request()->sort == 'stories') {
             $query = $query->withCount(['result as stories_count' => function ($subquery) {
                 $subquery->select(DB::raw('count(stories_id)'));
-            }])->orderBy('stories_count', 'DESC');
+            }])->having('stories_count', '>', 0)
+                ->orderByDesc('stories_count');
         } else {
-            $query = $query->addSelect([
-                'total_score' => function ($subquery) {
-                    $subquery->selectRaw('SUM(score)')
-                        ->from('results')
-                        ->whereColumn('results.user_id', 'users.id');
-                }
-            ])->orderBy('total_score', 'DESC');
+            $query = $query->withSum('result as score', 'score')
+                ->having('score', '>', 0)
+                ->orderByDesc('score');
         }
+
         $users = $query->simplePaginate(20);
+
         return view('main.rank', ['users' => $users]);
     }
 
