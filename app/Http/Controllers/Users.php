@@ -25,17 +25,22 @@ class Users extends Controller
         if (request()->sort == 'stories') {
             $query = $query->withCount(['result as stories_count' => function ($subquery) {
                 $subquery->select(DB::raw('count(stories_id)'));
-            }])->havingRaw('stories_count > 0')
+            }])
+                ->havingRaw('stories_count > 0')
                 ->orderByDesc('stories_count');
         } else {
-            $query = $query->addSelect([
-                'score' => function ($subquery) {
-                    $subquery->selectRaw('SUM(score)')
-                        ->from('results')
-                        ->whereColumn('results.user_id', 'users.id');
-                }
-            ])->havingRaw('(select sum(score) from results where results.user_id = users.id) > 0')
-                ->orderByDesc('score');
+            // Create a subquery for user scores
+            $scoreSub = DB::table('results')
+                ->select('user_id', DB::raw('SUM(score) as total_score'))
+                ->groupBy('user_id');
+
+            // Join the subquery to the users table
+            $query = $query
+                ->joinSub($scoreSub, 'user_scores', function ($join) {
+                    $join->on('users.id', '=', 'user_scores.user_id');
+                })
+                ->orderByDesc('user_scores.total_score')
+                ->addSelect('users.*', 'user_scores.total_score as score');
         }
 
         $users = $query->simplePaginate(20);
