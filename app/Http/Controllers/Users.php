@@ -25,8 +25,7 @@ class Users extends Controller
         if (request()->sort == 'stories') {
             $query = $query->withCount(['result as stories_count' => function ($subquery) {
                 $subquery->select(DB::raw('count(stories_id)'));
-            }])
-                ->havingRaw('stories_count > 0')
+            }])->having('stories_count', '>', 0)
                 ->orderByDesc('stories_count');
         } else {
             // Create a subquery for user scores
