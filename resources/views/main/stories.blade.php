@@ -51,133 +51,117 @@
         </div>
 
         <!-- Stories Grid -->
-        <div class="row g-4">
-            @forelse ($stories as $story)
-            <div class="col-12 col-md-6 col-lg-4 mb-4">
-                <div class="card shadow-sm border-0 rounded-4 h-100 story-card">
-                    <!-- Completion Badge (Top Right) -->
-                    @if (auth()->check() && \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->exists())
-                    @php
-                    $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
-                    $questions = \App\Models\questions::where('stories_id', $story->id)->count();
-                    $totalScore = $story->Difficulty * 10 * $questions;
-                    $scorePercentage = ($userResult->score / $totalScore) * 100;
-                    @endphp
+<div class="row g-4">
+    @forelse ($stories as $story)
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 rounded-4 h-100 story-card">
+            <!-- Completion Badge (Top Right) -->
+            @if (auth()->check() && \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->exists())
+            @php
+                $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
+                $questions = \App\Models\questions::where('stories_id', $story->id)->count();
+                $totalScore = $story->Difficulty * 10 * $questions;
+                $scorePercentage = ($userResult->score / $totalScore) * 100;
+            @endphp
 
-                    <div class="completion-badge-container">
-                        <div class="completion-badge" data-bs-toggle="tooltip" data-bs-placement="top"
-                            title="{{ $scorePercentage }}% completed - {{ $userResult->score }} points out of {{ $totalScore }}">
-
-                            @if ($userResult->score == $totalScore)
-                            <!-- Perfect score -->
-                            <i class="bi bi-trophy-fill text-warning"></i>
-                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} ⭐</span>
-                            @elseif ($scorePercentage >= 90)
-                            <!-- Nearly perfect (90%+) -->
-                            <i class="bi bi-award-fill text-primary"></i>
-                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} 🔥</span>
-                            @elseif ($scorePercentage >= 75)
-                            <!-- Good score (75%+) -->
-                            <i class="bi bi-hand-thumbs-up-fill text-success"></i>
-                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
-                            @elseif ($scorePercentage >= 50)
-                            <!-- Average score (50%+) -->
-                            <i class="bi bi-check-circle-fill text-info"></i>
-                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
-                            @else
-                            <!-- Below average -->
-                            <i class="bi bi-check-circle"></i>
-                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
-                            @endif
-                        </div>
-                    </div>
+            <div class="completion-badge-container">
+                <div class="completion-badge" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="{{ $scorePercentage }}% completed - {{ $userResult->score }} points out of {{ $totalScore }}">
+                    @if ($userResult->score == $totalScore)
+                    <i class="bi bi-trophy-fill text-warning"></i>
+                    <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} ⭐</span>
+                    @elseif ($scorePercentage >= 90)
+                    <i class="bi bi-award-fill text-primary"></i>
+                    <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} 🔥</span>
+                    @elseif ($scorePercentage >= 75)
+                    <i class="bi bi-hand-thumbs-up-fill text-success"></i>
+                    <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
+                    @elseif ($scorePercentage >= 50)
+                    <i class="bi bi-check-circle-fill text-info"></i>
+                    <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
+                    @else
+                    <i class="bi bi-check-circle"></i>
+                    <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
                     @endif
+                </div>
+            </div>
+            @endif
 
-                    <div class="card-body d-flex flex-column p-4">
-                        <!-- Difficulty Badge -->
-                        <div class="mb-2">
-                            @if ($story->Difficulty == 1)
-                            <span class="badge bg-success rounded-pill px-3 py-2">Easy</span>
-                            @elseif ($story->Difficulty == 2)
-                            <span class="badge bg-warning rounded-pill px-3 py-2">Medium</span>
-                            @elseif ($story->Difficulty == 3)
-                            <span class="badge bg-danger rounded-pill px-3 py-2">Hard</span>
-                            @else
-                            <span class="badge bg-secondary rounded-pill px-3 py-2">Unknown</span>
-                            @endif
+            <div class="card-body d-flex flex-column p-4">
+                <!-- Difficulty Badge -->
+                <div class="mb-2">
+                    @if ($story->Difficulty == 1)
+                    <span class="badge bg-success rounded-pill px-3 py-2">Easy</span>
+                    @elseif ($story->Difficulty == 2)
+                    <span class="badge bg-warning rounded-pill px-3 py-2">Medium</span>
+                    @elseif ($story->Difficulty == 3)
+                    <span class="badge bg-danger rounded-pill px-3 py-2">Hard</span>
+                    @else
+                    <span class="badge bg-secondary rounded-pill px-3 py-2">Unknown</span>
+                    @endif
+                </div>
+
+                <h4 class="card-title fw-bold text-dark mb-2">{{ $story->title }}</h4>
+                <p class="card-text text-muted mb-3">{{ Str::limit($story->description, 100) }}</p>
+
+                <div class="d-flex align-items-center mb-2">
+                    <div class="avatar-circle bg-primary text-white me-2">
+                        <span>{{ substr($story->user->name, 0, 1) }}</span>
+                    </div>
+                    <div>
+                        <p class="mb-0 small text-muted">Published by</p>
+                        <p class="fw-bold mb-0">{{ $story->user->name }}</p>
+                    </div>
+                </div>
+
+                @if($story->Author)
+                <div class="mb-3">
+                    <p class="mb-0 small text-muted">Story by</p>
+                    <p class="fw-bold">{{ $story->Author }}</p>
+                </div>
+                @endif
+
+                <div class="d-flex story-stats my-3 justify-content-between">
+                    <div class="like d-flex">
+                        <div class="me-3 d-flex align-items-center">
+                            <i class="bi bi-hand-thumbs-up-fill text-success me-1"></i>
+                            <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
                         </div>
-
-                        <!-- Story Title -->
-                        <h4 class="card-title fw-bold text-dark mb-2">{{ $story->title }}</h4>
-
-                        <!-- Story Description -->
-                        <p class="card-text text-muted mb-3">{{ Str::limit($story->description, 100) }}</p>
-
-                        <!-- Author Info -->
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="avatar-circle bg-primary text-white me-2">
-                                <span>{{ substr($story->user->name, 0, 1) }}</span>
-                            </div>
-                            <div>
-                                <p class="mb-0 small text-muted">Published by</p>
-                                <p class="fw-bold mb-0">{{ $story->user->name }}</p>
-                            </div>
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-hand-thumbs-down-fill text-danger me-1"></i>
+                            <span class="fw-bold">{{ $story->story_like->where('like', '-1')->count() }}</span>
                         </div>
+                    </div>
 
-                        <!-- Author Name -->
-                        @if($story->Author)
-                        <div class="mb-3">
-                            <p class="mb-0 small text-muted">Story by</p>
-                            <p class="fw-bold">{{ $story->Author }}</p>
+                    <div class="stas d-flex">
+                        <div class="d-flex align-items-center mx-2">
+                            <i class="bi bi-eye-fill me-2"></i>
+                            <span class="fw-bold">{{ number_format($story->views) }}</span>
                         </div>
-                        @endif
-
-                        <!-- Stats Row -->
-                        <div class="d-flex story-stats my-3 justify-content-between">
-                            <div class="like d-flex">
-                                <div class="me-3 d-flex align-items-center">
-                                    <i class="bi bi-hand-thumbs-up-fill text-success me-1"></i>
-                                    <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-hand-thumbs-down-fill text-danger me-1"></i>
-                                    <span class="fw-bold">{{ $story->story_like->where('like', '-1')->count() }}</span>
-                                </div>
-                             </div>
-
-                            <div class="stas d-flex ">
-                                <div class="d-flex align-items-center mx-2">
-                                        <i class="bi bi-eye-fill  me-2"></i>
-                                        <span class="fw-bold">{{ number_format($story->views) }}</span>
-                                </div>
-
-
-                                <div class="d-flex align-items-center mx-2">
-                                        <i class="bi bi-chat-left-text text-success me-2"></i>
-                                        <span class="fw-bold">{{ $story->story_Comment->count() }}</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                            <!-- Read More Button -->
-                            <a href="/stories/{{ $story->id }}" class="btn btn-primary w-100">
-                                <i class="bi bi-book me-2"></i> Read Story
-                            </a>
+                        <div class="d-flex align-items-center mx-2">
+                            <i class="bi bi-chat-left-text text-success me-2"></i>
+                            <span class="fw-bold">{{ $story->story_Comment->count() }}</span>
                         </div>
                     </div>
                 </div>
+
+                <a href="/stories/{{ $story->id }}" class="btn btn-primary w-100">
+                    <i class="bi bi-book me-2"></i> Read Story
+                </a>
             </div>
-            @empty
-            <div class="col-12 text-center py-5">
-                <div class="empty-state">
-                    <i class="bi bi-book fs-1 text-muted mb-3 d-block"></i>
-                    <h4>No stories found</h4>
-                    <p class="text-muted">Try adjusting your search or filter criteria</p>
-                </div>
-            </div>
-            @endforelse
         </div>
+    </div>
+    @empty
+    <div class="col-12 text-center py-5">
+        <div class="empty-state">
+            <i class="bi bi-book fs-1 text-muted mb-3 d-block"></i>
+            <h4>No stories found</h4>
+            <p class="text-muted">Try adjusting your search or filter criteria</p>
+        </div>
+    </div>
+    @endforelse
+</div>
+
 
         <!-- Pagination -->
         <div class="d-flex justify-content-center mt-5">
