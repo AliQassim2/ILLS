@@ -87,7 +87,7 @@
             </div>
             @endif
 
-            <div class="card-body d-flex flex-column p-4">
+            <div class="card-body d-flex flex-column justify-content-between p-4">
                 <!-- Difficulty Badge -->
                 <div class="mb-2">
                     @if ($story->Difficulty == 1)
