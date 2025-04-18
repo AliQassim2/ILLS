@@ -23,10 +23,16 @@ class Users extends Controller
             ->where('is_banned', '!=', 2);
 
         if (request()->sort == 'stories') {
-            $query = $query->withCount(['result as stories_count' => function ($subquery) {
-                $subquery->select(DB::raw('count(stories_id)'));
-            }])->having('stories_count', '>', 0)
-                ->orderByDesc('stories_count');
+            $storiesSub = DB::table('results')
+                ->select('user_id', DB::raw('COUNT(stories_id) as stories_count'))
+                ->groupBy('user_id');
+
+            $query = $query
+                ->joinSub($storiesSub, 'user_stories', function ($join) {
+                    $join->on('users.id', '=', 'user_stories.user_id');
+                })
+                ->orderByDesc('user_stories.stories_count')
+                ->addSelect('users.*', 'user_stories.stories_count');
         } else {
             // Create a subquery for user scores
             $scoreSub = DB::table('results')
