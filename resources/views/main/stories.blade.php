@@ -64,7 +64,7 @@
                             $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
                             $score = $userResult ? $userResult->score : 0;
                             @endphp
-                            <span class="completion-score">{{ $score }}%</span>
+                            <span class="completion-score">{{ $score }} ⭐</span>
                         </div>
                     </div>
                     @endif
