@@ -15,7 +15,7 @@
         </div>
 
         <!-- Rank List -->
-        <div class="card shadow-lg p-2 rounded-4 border-0 bg-light">
+        <div class="card shadow-lg  rounded-4 border-0 bg-light">
             <table class="table table-hover">
                 <thead>
                     <tr class="text-center">

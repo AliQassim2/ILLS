@@ -133,24 +133,8 @@
                         @endif
 
                         <!-- Stats Row -->
-                        <div class="story-stats mt-auto">
-                            <div class="row g-2 mb-3">
-                                <div class="col-6">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-eye-fill text-primary me-2"></i>
-                                        <span class="fw-bold">{{ number_format($story->views) }}</span>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-chat-left-text text-success me-2"></i>
-                                        <span class="fw-bold">{{ $story->story_Comment->count() }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Likes/Dislikes -->
-                            <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex story-stats my-3 justify-content-between">
+                            <div class="like d-flex">
                                 <div class="me-3 d-flex align-items-center">
                                     <i class="bi bi-hand-thumbs-up-fill text-success me-1"></i>
                                     <span class="fw-bold">{{ $story->story_like->where('like', '1')->count() }}</span>
@@ -159,7 +143,22 @@
                                     <i class="bi bi-hand-thumbs-down-fill text-danger me-1"></i>
                                     <span class="fw-bold">{{ $story->story_like->where('like', '-1')->count() }}</span>
                                 </div>
+                             </div>
+
+                            <div class="stas d-flex ">
+                                <div class="d-flex align-items-center mx-2">
+                                        <i class="bi bi-eye-fill  me-2"></i>
+                                        <span class="fw-bold">{{ number_format($story->views) }}</span>
+                                </div>
+
+
+                                <div class="d-flex align-items-center mx-2">
+                                        <i class="bi bi-chat-left-text text-success me-2"></i>
+                                        <span class="fw-bold">{{ $story->story_Comment->count() }}</span>
+                                </div>
                             </div>
+
+                        </div>
 
                             <!-- Read More Button -->
                             <a href="/stories/{{ $story->id }}" class="btn btn-primary w-100">
