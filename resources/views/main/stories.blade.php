@@ -57,14 +57,38 @@
                 <div class="card shadow-sm border-0 rounded-4 h-100 story-card">
                     <!-- Completion Badge (Top Right) -->
                     @if (auth()->check() && \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->exists())
+                    @php
+                    $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
+                    $questions = \App\Models\questions::where('stories_id', $story->id)->count();
+                    $totalScore = $story->Difficulty * 10 * $questions;
+                    $scorePercentage = ($userResult->score / $totalScore) * 100;
+                    @endphp
+
                     <div class="completion-badge-container">
-                        <div class="completion-badge" data-bs-toggle="tooltip" data-bs-placement="top" title="You've completed this story">
-                            <i class="bi bi-check-circle-fill"></i>
-                            @php
-                            $userResult = \App\Models\result::where('user_id', auth()->id())->where('stories_id', $story->id)->first();
-                            $score = $userResult ? $userResult->score : 0;
-                            @endphp
-                            <span class="completion-score">{{ $score }} ⭐</span>
+                        <div class="completion-badge" data-bs-toggle="tooltip" data-bs-placement="top"
+                            title="{{ $scorePercentage }}% completed - {{ $userResult->score }} points out of {{ $totalScore }}">
+
+                            @if ($userResult->score == $totalScore)
+                            <!-- Perfect score -->
+                            <i class="bi bi-trophy-fill text-warning"></i>
+                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} ⭐</span>
+                            @elseif ($scorePercentage >= 90)
+                            <!-- Nearly perfect (90%+) -->
+                            <i class="bi bi-award-fill text-primary"></i>
+                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }} 🔥</span>
+                            @elseif ($scorePercentage >= 75)
+                            <!-- Good score (75%+) -->
+                            <i class="bi bi-hand-thumbs-up-fill text-success"></i>
+                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
+                            @elseif ($scorePercentage >= 50)
+                            <!-- Average score (50%+) -->
+                            <i class="bi bi-check-circle-fill text-info"></i>
+                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
+                            @else
+                            <!-- Below average -->
+                            <i class="bi bi-check-circle"></i>
+                            <span class="completion-score">{{ $userResult->score }}/{{ $totalScore }}</span>
+                            @endif
                         </div>
                     </div>
                     @endif
