@@ -36,6 +36,13 @@ class DashboardController extends Controller
                 $query->where('is_banned', 2);
             }
         }
+        if ($request->verify && $request->verify != 'all') {
+            if ($request->verify == 'Verified') {
+                $query->whereNotNull('email_verified_at');
+            } elseif ($request->verify == 'Unverified') {
+                $query->whereNull('is_verified');
+            }
+        }
         $users = $query->orderBy('created_at', 'DESC')->paginate(10);
         return view('dashboard.users', compact('users')); // Now points to users.blade.php
     }

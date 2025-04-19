@@ -22,6 +22,13 @@
                     <option value="publisher" {{ request('role') == 'publisher' ? 'selected' : '' }}>Publisher</option>
                 </select>
             </div>
+            <div class="col-sm-3">
+                <select name="verify" class="form-select" onchange="this.form.submit()">
+                    <option value="all">All</option>
+                    <option value="Verified" {{ request('verify') == 'Verified' ? 'selected' : '' }}>Verified</option>
+                    <option value="Unverified" {{ request('verify') == 'Unverified' ? 'selected' : '' }}>Unverified</option>
+                </select>
+            </div>
 
             <!-- Ban Status Filter -->
             <div class="col-sm-3">
