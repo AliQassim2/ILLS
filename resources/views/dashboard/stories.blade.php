@@ -132,7 +132,7 @@ $difficultyLevels = [
                                             {{ $story->suggested ? 'Unfeature' : 'Feature' }}
                                         </button>
                                     </form>
-
+                                    @endif
                                     <!-- Reset Score Form -->
                                     <form action="{{ route('dashboard.stories.reset-score', $story->id) }}" method="POST" class="d-inline">
                                         @csrf
@@ -142,7 +142,7 @@ $difficultyLevels = [
                                             <i class="fas fa-redo-alt me-1"></i> Reset Score
                                         </button>
                                     </form>
-
+                                    @if (Auth::user()->role == 0)
                                     <!-- Delete Form -->
                                     <form action="{{ route('dashboard.stories.delete', $story->id) }}" method="POST" class="d-inline">
                                         @csrf
