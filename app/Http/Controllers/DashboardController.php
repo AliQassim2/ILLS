@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\result;
 use App\Models\User;
 use App\Models\stories;
 use Illuminate\Http\Request;
@@ -14,9 +15,28 @@ class DashboardController extends Controller
 {
 
     // Show all users
-    public function users()
+    public function users(Request $request)
     {
-        $users = User::where('role', '!=', 0)->paginate(10);
+        $query = User::where('role', '!=', 0);
+        if ($request->search)
+            $users = $query->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('email', 'LIKE', '%' . $request->search . '%');
+        if ($request->role && $request->role != 'all') {
+            if ($request->role == 'publisher') {
+                $query->where('role', 2);
+            } elseif ($request->role == 'user') {
+                $query->where('role', 1);
+            }
+        }
+        if ($request->status && $request->status != 'all') {
+            if ($request->status == 'active') {
+                $query->where('is_banned', 0);
+            } elseif ($request->status == 'banned') {
+                $query->where('is_banned', 1);
+            } elseif ($request->status == 'full_banned') {
+                $query->where('is_banned', 2);
+            }
+        }
+        $users = $query->orderBy('created_at', 'DESC')->paginate(10);
         return view('dashboard.users', compact('users')); // Now points to users.blade.php
     }
 
@@ -75,6 +95,25 @@ class DashboardController extends Controller
         if (Auth::user()->role != 0) {
             $query->where('user_id', Auth::user()->id);
         }
+        if (request('search')) {
+            $query->where('title', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('Author', 'LIKE', '%' . request('search') . '%');
+        }
+        if (request('status') && request('status') != 'all') {
+            if (request('status') == 'active') {
+                $query->where('is_active', 1);
+            } elseif (request('status') == 'inactive') {
+                $query->where('is_active', 0);
+            }
+        }
+        if (request('suggested') && request('suggested') != 'all') {
+            if (request('suggested') == 'Featured') {
+                $query->where('suggested', 1);
+            } elseif (request('suggested') == 'Regular') {
+                $query->where('suggested', 0);
+            }
+        }
+
 
         $stories = $query->paginate(10);
         return view('dashboard.stories', compact('stories'));
@@ -243,5 +282,10 @@ class DashboardController extends Controller
     {
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+    public function resetScore($id)
+    {
+        result::where('stories_id', $id)->delete();
+        return back()->with('success', 'Story score reset successfully.');
     }
 }

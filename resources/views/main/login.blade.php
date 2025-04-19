@@ -133,12 +133,13 @@
                 </div>
 
                 <div class="mb-4">
-
+                    <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" id="password" name="password" required
                         placeholder="••••••••">
                     @error('password')
                     <p class="error-message">{{ $message }}</p>
                     @enderror
+                    <p><a href="{{ route('password.request') }}">Forget Password?</a></p>
                 </div>
 
 
@@ -149,7 +150,7 @@
 
         </div>
         <div class="signup-link">
-                <div>Don't have an account? </div><a href="signup">Sign up</a>
+            <div>Don't have an account? </div><a href="signup">Sign up</a>
         </div>
     </div>
 

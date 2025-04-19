@@ -10,7 +10,7 @@ use App\Http\Controllers\QuestionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+
 
 //Home
 Route::get('/',  function () {
@@ -64,7 +64,15 @@ Route::controller(Users::class)->group(function () {
     Route::get('/verify-email',  'showVerificationPage')->name('verify-email')->middleware('auth');
     Route::post('/verify-email',  'processVerification')->name('verify-email.process')->middleware('auth');
     Route::get('/verify-email/resend',  'resendVerification')->name('verify-email.resend')->middleware('auth');
+    Route::get('/forgot-password', 'viewForgetPassword')->middleware('guest')->name('password.request');
+
+    Route::post('/forgot-password', 'sendLinks')->middleware('guest')->name('password.email');
+
+    Route::get('/reset-password/{token}', 'viewResetPassword')->middleware('guest')->name('password.reset');
+
+    Route::post('/reset-password', 'ResetPassword')->middleware('guest')->name('password.update');
 });
+
 
 
 
@@ -93,8 +101,6 @@ Route::post('/save-score', function (Request $request) {
 
 
 Route::controller(DashboardController::class)->group(function () {
-
-
     Route::middleware(['verify', 'auth', 'admin'])->group(function () {
         // Users
         Route::get('/dashboard/users',  'users')->name('dashboard.users');
@@ -115,6 +121,7 @@ Route::controller(DashboardController::class)->group(function () {
             Route::get('/dashboard/stories/{id}/edit',  'editStory')->name('dashboard.stories.edit');
             Route::put('/dashboard/stories/{id}/update',  'updateStory')->name('dashboard.stories.update');
             Route::post('/dashboard/stories/{id}/toggle-status',  'toggleStoryStatus')->name('dashboard.stories.toggle-status');
+            Route::post('/dashboard/stories/{story}/reset-score',  'resetScore')->name('dashboard.stories.reset-score');
             // Questions
             Route::get('/dashboard/stories/{id}/questions',  'storyQuestions')->name('dashboard.stories.questions.index');
             Route::get('/dashboard/stories/{id}/questions/create',  'createQuestion')->name('dashboard.stories.questions.create');

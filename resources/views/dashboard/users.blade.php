@@ -7,6 +7,47 @@
 <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
+<!-- Filter/Search UI -->
+<div class="row align-items-center mb-3">
+    <div class="col-md-4">
+        <h5 class="mb-0">All Users</h5>
+    </div>
+    <div class="col-md-8">
+        <form method="GET" class="row g-2">
+            <!-- Role Filter -->
+            <div class="col-sm-3">
+                <select name="role" class="form-select" onchange="this.form.submit()">
+                    <option value="all">All Roles</option>
+                    <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                    <option value="publisher" {{ request('role') == 'publisher' ? 'selected' : '' }}>Publisher</option>
+                </select>
+            </div>
+
+            <!-- Ban Status Filter -->
+            <div class="col-sm-3">
+                <select name="status" class="form-select" onchange="this.form.submit()">
+                    <option value="all">All Status</option>
+                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                    <option value="banned" {{ request('status') == 'banned' ? 'selected' : '' }}>Banned</option>
+                    <option value="full_banned" {{ request('status') == 'full_banned' ? 'selected' : '' }}>Full Ban</option>
+                </select>
+            </div>
+
+            <!-- Search -->
+            <div class="col-sm-4">
+                <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search by name or email">
+            </div>
+
+            <div class="col-sm-2 d-grid">
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="fas fa-filter"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- User Table -->
 <table class="table table-bordered mt-4">
     <thead class="table-light">
         <tr>
@@ -23,13 +64,7 @@
         <tr>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td>
-                @if ($user->role == 2)
-                Publisher
-                @else
-                User
-                @endif
-            </td>
+            <td>{{ $user->role == 2 ? 'Publisher' : 'User' }}</td>
             <td>
                 @if ($user->is_banned == 1)
                 <span class="badge bg-danger">Banned</span>
@@ -94,6 +129,6 @@
 </table>
 
 <div class="mt-3">
-    {{ $users->links() }}
+    {{ $users->withQueryString()->links() }}
 </div>
 @endsection
