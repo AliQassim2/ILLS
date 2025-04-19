@@ -40,7 +40,7 @@ class DashboardController extends Controller
             if ($request->verify == 'Verified') {
                 $query->whereNotNull('email_verified_at');
             } elseif ($request->verify == 'Unverified') {
-                $query->whereNull('is_verified');
+                $query->whereNull('email_verified_at');
             }
         }
         $users = $query->orderBy('created_at', 'DESC')->paginate(10);
