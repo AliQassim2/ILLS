@@ -170,9 +170,12 @@ class Users extends Controller
     public function update(User $user)
     {
         $validation = request()->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:users,name'],
+            'name' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
         ]);
+        if (User::where('name', $validation['name'])->where('id', '!=', $user->id)->exists()) {
+            throw ValidationException::withMessages(['name' => 'Sorry, this name is already taken.']);
+        }
         if (trim(strtolower(request('name'))) ==  'admin') {
             throw ValidationException::withMessages(['name' => 'Sorry, this name is not allowed.']);
         }
