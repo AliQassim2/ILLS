@@ -16,9 +16,7 @@ use Illuminate\Auth\Events\PasswordReset;
 
 class Users extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    //ranks
     public function index()
     {
         $query = User::where('role', 1)
@@ -56,17 +54,12 @@ class Users extends Controller
         return view('main.rank', ['users' => $users]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    //singup
     public function create()
     {
         return view('main.signup');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = request()->validate([
@@ -74,6 +67,9 @@ class Users extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+        if (trim(strtolower(request('name'))) ==  'admin') {
+            throw ValidationException::withMessages(['name' => 'Sorry, this name is not allowed.']);
+        }
         $validated['password'] = bcrypt($validated['password']);
         $user = User::create($validated);
         Auth::login($user);
@@ -87,6 +83,11 @@ class Users extends Controller
 
         return redirect('/verify-email');
     }
+
+
+
+
+    ///verification
     public function resendVerification()
     {
         $user = Auth::user();
@@ -99,92 +100,6 @@ class Users extends Controller
 
         return back()->with('success', 'Verification email resent.');
     }
-
-
-    public function display_login()
-    {
-        return view('main.login', ['redirect' => request('redirect')]);
-    }
-
-    public function login(Request $request)
-    {
-        $attributes = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (!Auth::attempt($attributes)) {
-            throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
-        }
-        if (Auth::user()->is_banned ==  2) {
-            Auth::logout();
-            throw ValidationException::withMessages(['unAuth' => 'Sorry, your account has been banned.']);
-        }
-        $request->session()->regenerate();
-
-        // Redirect to the intended page or fallback to the previous URL
-        return redirect(route('home'));
-    }
-
-
-    public function update(User $user)
-    {
-        $validation = request()->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
-        $user->update($validation);
-        return redirect(route('profile'))->with('success', 'Profile updated successfully.');
-    }
-    public function reault($id)
-    {
-        return DB::table('results')->where('user_id', $id)->count();
-    }
-    public function sum($id)
-    {
-        return DB::table('results')->where('user_id', $id)->sum('score');
-    }
-    public function edit()
-    {
-        $totle_score = $this->sum(Auth::user()->id);
-        $stories = $this->reault(Auth::user()->id);
-        return view('main.profile', ['user' => Auth::user(), 'totle_score' => $totle_score, 'stories' => $stories]);
-    }
-    public function logout()
-    {
-        Auth::logout();
-        return redirect(route('login'));
-    }
-    public function users()
-    {
-        $users = User::where('role', '!=', 0)->paginate(10);
-        return view('dashboard.dashboard', compact('users'));
-    }
-
-    public function upgrade($id)
-    {
-        $user = User::findOrFail($id);
-        $user->role = 2;
-        $user->save();
-        return back()->with('success', 'User upgraded to publisher.');
-    }
-
-    public function toggleBan($id)
-    {
-        $user = User::findOrFail($id);
-        $user->is_banned = !$user->is_banned;
-        $user->save();
-        return back()->with('success', 'User ban status updated.');
-    }
-    public function downgrade($id)
-    {
-        $user = User::findOrFail($id);
-        $user->role = 1; // downgrade to normal user
-        $user->save();
-
-        return back()->with('success', $user->name . ' is now a regular user.');
-    }
-
 
     public function showVerificationPage()
     {
@@ -211,6 +126,73 @@ class Users extends Controller
         return back()->withErrors(['key' => 'Invalid verification code.']);
     }
 
+    ///login
+    public function display_login()
+    {
+        return view('main.login', ['redirect' => request('redirect')]);
+    }
+
+    public function login(Request $request)
+    {
+        $attributes = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (!Auth::attempt($attributes)) {
+            throw ValidationException::withMessages(['unAuth' => 'Sorry, those credentials do not match.']);
+        }
+        if (Auth::user()->is_banned ==  2) {
+            Auth::logout();
+            throw ValidationException::withMessages(['unAuth' => 'Sorry, your account has been banned.']);
+        }
+        $request->session()->regenerate();
+
+        // Redirect to the intended page or fallback to the previous URL
+        return redirect(route('home'));
+    }
+
+    ///profile
+    public function reault($id)
+    {
+        return DB::table('results')->where('user_id', $id)->count();
+    }
+    public function sum($id)
+    {
+        return DB::table('results')->where('user_id', $id)->sum('score');
+    }
+    public function edit()
+    {
+        $totle_score = $this->sum(Auth::user()->id);
+        $stories = $this->reault(Auth::user()->id);
+        return view('main.profile', ['user' => Auth::user(), 'totle_score' => $totle_score, 'stories' => $stories]);
+    }
+    public function update(User $user)
+    {
+        $validation = request()->validate([
+            'name' => ['required', 'string', 'max:255', 'unique:users,name'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+        if (trim(strtolower(request('name'))) ==  'admin') {
+            throw ValidationException::withMessages(['name' => 'Sorry, this name is not allowed.']);
+        }
+        $user->update($validation);
+        return redirect(route('profile'))->with('success', 'Profile updated successfully.');
+    }
+
+
+    //logout
+    public function logout()
+    {
+        Auth::logout();
+        return redirect(route('login'));
+    }
+
+
+
+
+
+    ///forget password
     public function viewForgetPassword()
     {
         return view('main.forgetPassword');
