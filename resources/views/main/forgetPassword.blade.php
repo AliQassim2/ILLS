@@ -121,11 +121,7 @@
             width: 100%;
         }
 
-        .btn:hover {
-            background-color: #3a5ddd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 111, 255, 0.2);
-        }
+       
     </style>
 </head>
 
