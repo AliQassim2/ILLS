@@ -88,7 +88,7 @@
   </style>
 </head>
 
-<body>
+<body class="d-flex vh-100 justify-content-center align-items-center">
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-12 col-md-6 col-lg-5">
