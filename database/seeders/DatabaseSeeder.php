@@ -14,13 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $admin = \App\Models\User::create([
-            'id' => 0,
-            'name' => 'Admin',
-            'email' => 'admin@admin',
-            'password' => bcrypt('W2^C/5wU*m&70PC@'),
-            'role' => 0,
-        ]);
+      
 
         // // Story data
         // $stories = [
