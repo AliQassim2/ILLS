@@ -2,240 +2,186 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Verification | Tstone</title>
-    <link rel="icon" href="imges/Vector.png" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Itim&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/saign.css">
-    <style>
-        :root {
-            --primary-color: #4A6FFF;
-            --error-color: #ff4a4a;
-            --success-color: #28a745;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email Verification | Tstone</title>
+  <!-- Favicon -->
+  <link rel="icon" href="/images/Vector.png" type="image/x-icon">
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F1EBDC;
-        }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Itim&display=swap" rel="stylesheet">
 
-        .verification-container {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-        }
+  <!-- Bootstrap -->
+  <link href="/styles/bootstrap.min.css" rel="stylesheet">
 
-        .verification-container h3 {
-            font-family: 'Itim', cursive;
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
+  <!-- Custom Styles -->
+  <style>
+    :root {
+      --primary: #4A6FFF;
+      --light-bg: #F1EBDC;
+      --gray-text: #6c757d;
+      --border: #e2e8f0;
+    }
 
-        .verification-container p {
-            text-align: center;
-            color: #6c757d;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      margin: 0;
+      padding: 0;
+    }
 
-        .form-control {
-            border: 1px solid #e2e8f0;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 1.25rem;
-            letter-spacing: 2px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+    .verification-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      padding: 2rem;
+    }
 
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
-        }
+    .verification-card h3 {
+      font-family: 'Itim', cursive;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
 
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #4a5568;
-        }
+    .verification-card p {
+      text-align: center;
+      color: var(--gray-text);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
 
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 1rem;
-        }
+    .form-control {
+      text-align: center;
+      letter-spacing: 2px;
+      font-size: 1.25rem;
+      border-color: var(--border);
+    }
 
-        .btn-primary:hover {
-            background-color: #3a5ddd;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 111, 255, 0.2);
-        }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
+    }
 
-        .btn-link {
-            color: var(--primary-color);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
+    .timer {
+      font-size: 0.9rem;
+      color: var(--gray-text);
+      text-align: center;
+    }
 
-        .btn-link:hover {
-            text-decoration: underline;
-        }
+    .btn-primary {
+      background: var(--primary);
+      border: none;
+      font-weight: 600;
+    }
 
-        .btn-logout {
-            background-color: transparent;
-            border: 1px solid #e2e8f0;
-            color: #6c757d;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
+    .btn-primary:hover {
+      background: darken(var(--primary), 10%);
+    }
 
-        .btn-logout:hover {
-            background-color: #f8f9fa;
-        }
-
-        .timer {
-            font-size: 0.9rem;
-            color: #6c757d;
-            margin-top: 0.5rem;
-            text-align: center;
-        }
-        #resendBtn{
-            position: static;
-            transform: translateX(0%);
-        }
-    </style>
+    .link-disabled {
+      color: var(--gray-text) !important;
+      pointer-events: none;
+    }
+  </style>
 </head>
 
-<body>
-    <div class="vh-100 d-flex align-items-center justify-content-center flex-column">
+<body class="d-flex vh-100 justify-content-center align-items-center">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 col-lg-5">
         @if(session('message'))
-        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle me-2" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-            </svg>
-            {{ session('message') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle me-2" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+          </svg>
+          {{ session('message') }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
 
-        <div class="verification-container">
-            <h3>Verify Your Email</h3>
-            <p>We've sent a verification code to your email address. Please enter it below to verify your account.</p>
+        <div class="verification-card">
+          <h3>Verify Your Email</h3>
+          <p>We've sent a verification code to your email. Enter it below to confirm your account.</p>
 
-            @if ($errors->any())
-            <div class="alert alert-danger mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle me-2" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
-                </svg>
-                {{ $errors->first() }}
+          @if($errors->any())
+          <div class="alert alert-danger" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle me-2" viewBox="0 0 16 16">
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+              <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
+            </svg>
+            {{ $errors->first() }}
+          </div>
+          @endif
+
+          <form method="POST" action="/verify-email">
+            @csrf
+            <div class="mb-4">
+              <label for="key" class="form-label">Verification Code</label>
+              <input id="key" name="key" type="text" maxlength="6" class="form-control shadow" placeholder="000000" required autocomplete="off">
             </div>
-            @endif
+            <button type="submit" class="btn btn-primary w-100 mb-3">Verify Email</button>
 
-            <form method="POST" action="/verify-email">
-                @csrf
-                <div class="mb-4">
-                    <label for="key" class="form-label">Verification Code</label>
-                    <input type="text" class="form-control shadow" name="key" id="key"
-                        maxlength="6" placeholder="000000" required autocomplete="off">
-                </div>
+            <div class="text-center mb-3">
+              <a id="resendBtn" href="{{ route('verify-email.resend') }}" class="link-primary" role="button">Resend code</a>
+            </div>
 
-                <button type="submit" class="btn ">Verify Email</button>
+            <div id="timer" class="timer d-none">
+              You can request a new code in <span id="countdown">60</span> seconds
+            </div>
+          </form>
 
-                <div class="d-flex justify-content-center my-4">
-                    <a href="{{route('verify-email.resend')}}" class="btn btn-link" id="resendBtn">
-                        Resend verification code
-                    </a>
-                </div>
-
-                <div class="timer text-center d-none" id="timer">
-                    You can request a new code in <span id="countdown">60</span> seconds
-                </div>
+          <div class="text-center mt-4">
+            <form action="{{ route('logout') }}" method="post">
+              @csrf
+              <button type="submit" class="btn btn-outline-secondary">Back to Login</button>
             </form>
-
-            <div class="d-flex justify-content-center ">
-                <form action="{{ route('logout') }}" method="post">
-                    @csrf
-                    <button type="submit" class="btn-logout">Back to login</button>
-                </form>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Timer functionality for resending verification code
-        const resendBtn = document.getElementById('resendBtn');
-        const timerDiv = document.getElementById('timer');
-        const countdownSpan = document.getElementById('countdown');
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const resendBtn = document.getElementById('resendBtn');
+    const timerDiv = document.getElementById('timer');
+    const countdown = document.getElementById('countdown');
+    let timerInterval;
 
-        // Check if timer is already running in sessionStorage
-        let timeLeft = sessionStorage.getItem('verificationTimer');
-        let timerInterval;
+    let timeLeft = parseInt(sessionStorage.getItem('verificationTimer') || '0', 10);
+    if (timeLeft > 0) startTimer(timeLeft);
 
-        if (timeLeft > 0) {
-            startTimer(timeLeft);
+    resendBtn.addEventListener('click', function(e) {
+      if (!timerDiv.classList.contains('d-none')) e.preventDefault();
+      else startTimer(60);
+    });
+
+    function startTimer(sec) {
+      timeLeft = sec;
+      timerDiv.classList.remove('d-none');
+      resendBtn.classList.add('link-disabled');
+      countdown.textContent = timeLeft;
+      sessionStorage.setItem('verificationTimer', timeLeft);
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        countdown.textContent = timeLeft;
+        sessionStorage.setItem('verificationTimer', timeLeft);
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerDiv.classList.add('d-none');
+          resendBtn.classList.remove('link-disabled');
+          sessionStorage.removeItem('verificationTimer');
         }
-
-        resendBtn.addEventListener('click', function(e) {
-            if (timerDiv.classList.contains('d-none')) {
-                // Start a 60-second countdown
-                startTimer(60);
-            } else {
-                // If timer is visible, prevent clicking
-                e.preventDefault();
-            }
-        });
-
-        function startTimer(seconds) {
-            timeLeft = seconds;
-
-            // Show timer, hide resend button
-            timerDiv.classList.remove('d-none');
-            resendBtn.classList.add('text-muted');
-
-            // Update timer
-            countdownSpan.textContent = timeLeft;
-            sessionStorage.setItem('verificationTimer', timeLeft);
-
-            // Clear any existing interval
-            if (timerInterval) clearInterval(timerInterval);
-
-            // Start the countdown
-            timerInterval = setInterval(function() {
-                timeLeft--;
-                countdownSpan.textContent = timeLeft;
-                sessionStorage.setItem('verificationTimer', timeLeft);
-
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerDiv.classList.add('d-none');
-                    resendBtn.classList.remove('text-muted');
-                    sessionStorage.removeItem('verificationTimer');
-                }
-            }, 1000);
-        }
-    </script>
+      }, 1000);
+    }
+  </script>
 </body>
 
 </html>

@@ -15,7 +15,7 @@
     <div class="col-md-8">
         <form method="GET" class="row g-2">
             <!-- Role Filter -->
-            <div class="col-sm-3">
+            <div class=" col-sm-3">
                 <select name="role" class="form-select" onchange="this.form.submit()">
                     <option value="all">All Roles</option>
                     <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>

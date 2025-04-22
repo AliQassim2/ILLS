@@ -30,10 +30,10 @@ $difficultyLevels = [
                 <div class="col-md-4">
                     <h5 class="mb-0">All Stories</h5>
                 </div>
-                <div class="col-md-8">
+                <div class="d-flex col-md-8 justify-content-between">
 
                     <form action="">
-                        <div class="col-sm-3">
+                        <div class="">
                             <select name="status" class="form-select" onchange="this.form.submit()" aria-label="Sort options">
                                 <option value="all">All Status</option>
                                 <option value="active" {{ request('status')=='active'? 'selected':'' }}>Active</option>
@@ -42,7 +42,7 @@ $difficultyLevels = [
                         </div>
                     </form>
                     <form action="">
-                        <div class="col-sm-3">
+                        <div class="">
                             <select name="suggested" class="form-select" onchange="this.form.submit()" aria-label="Sort suggested">
                                 <option value="all">All suggested</option>
                                 <option value="Featured" {{ request('suggested')=='Featured'? 'selected':'' }}>Featured</option>
@@ -51,7 +51,7 @@ $difficultyLevels = [
                         </div>
                     </form>
                     <form method="GET" action="{{ route('dashboard.stories') }}" class="row g-2">
-                        <div class="col-sm-5">
+                        <div class="col-sm-8">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search by title or author">
                         </div>
                         <div class="col-sm-1 d-grid">
